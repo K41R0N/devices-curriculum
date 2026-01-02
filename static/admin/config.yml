@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: K41R0N/devices-curriculum
   branch: main
 
 media_folder: static/images
