@@ -1,3 +1,12 @@
+# =============================================================================
+# DEVICES Curriculum CMS Configuration
+# =============================================================================
+# This config defines the content schema for the curriculum.
+# See /CONTENT_ARCHITECTURE.md for full documentation.
+#
+# Schema Version: 1.0
+# =============================================================================
+
 backend:
   name: github
   repo: K41R0N/devices-curriculum
@@ -21,6 +30,8 @@ collections:
     create: true
     slug: '{{slug}}'
     sortable_fields: ['order', 'title']
+    summary: '{{order}}. {{title}}'
+    preview_path: 'curriculum/{{slug}}'
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Slug, name: slug, widget: string }
@@ -36,6 +47,8 @@ collections:
     create: true
     slug: '{{cluster}}-{{slug}}'
     sortable_fields: ['order', 'title', 'cluster']
+    summary: '{{cluster}} / {{order}}. {{title}}'
+    preview_path: 'curriculum/{{cluster}}/{{slug}}'
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Slug, name: slug, widget: string }

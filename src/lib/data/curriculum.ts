@@ -1,17 +1,18 @@
-export interface Lesson {
-	id: string;
-	title: string;
-	slug: string;
-	author?: string;
-	description: string;
-	order: number;
-}
-
-export interface Cluster {
-	id: number;
-	title: string;
-	slug: string;
-	description: string;
-	overview?: string;
-	lessons: Lesson[];
-}
+/**
+ * Re-export content types from centralized definitions
+ * @see /src/lib/types/content.ts
+ * @see /CONTENT_ARCHITECTURE.md
+ */
+export type {
+	Cluster,
+	Lesson,
+	KeyConcept,
+	Assignment,
+	Question,
+	Resource,
+	ClusterCardData,
+	LessonCardData,
+	NavigationContext,
+	CurriculumData,
+	LessonPageData
+} from '$lib/types/content';
