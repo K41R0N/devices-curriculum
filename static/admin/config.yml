@@ -1,10 +1,8 @@
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/devices-curriculum
+  repo: K41R0N/devices-curriculum
   branch: main
-  base_url: https://sveltia-cms-auth.YOUR_DOMAIN.com
-  # For local development, you can use:
-  # name: git-gateway
+  base_url: https://sveltia-cms-auth.alejandro-057.workers.dev
 
 media_folder: static/images
 public_folder: /images
