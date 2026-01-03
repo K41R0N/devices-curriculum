@@ -382,6 +382,86 @@ export interface HomePage extends Page {
 
 ---
 
+## Machine-Readable Endpoints
+
+The curriculum provides multiple machine-readable formats for programmatic access, SEO, and AI agents.
+
+### API Endpoints
+
+| Endpoint | Format | Description |
+|----------|--------|-------------|
+| `/api/curriculum.json` | JSON | Full curriculum data with all clusters and lessons |
+| `/api/manifest.json` | JSON-LD | Schema.org structured data for the course |
+| `/feed.xml` | RSS 2.0 | Syndication feed for all content |
+| `/sitemap.xml` | XML | Search engine sitemap |
+| `/robots.txt` | Text | Crawler guidance |
+| `/llms.txt` | Text | AI agent guidance |
+
+### JSON API (`/api/curriculum.json`)
+
+Returns complete curriculum data. Supports query parameters:
+
+```bash
+# Full curriculum
+GET /api/curriculum.json
+
+# Filter by cluster
+GET /api/curriculum.json?cluster=mediation-architecture
+
+# Without URLs (lighter payload)
+GET /api/curriculum.json?urls=false
+```
+
+**Response Structure**:
+```json
+{
+  "$schema": "https://devices-curriculum.netlify.app/api/schema.json",
+  "version": "1.0",
+  "generated": "2025-01-03T00:00:00.000Z",
+  "site": {
+    "name": "DEVICES Curriculum",
+    "url": "https://devices-curriculum.netlify.app",
+    "description": "..."
+  },
+  "stats": {
+    "totalClusters": 9,
+    "totalLessons": 25
+  },
+  "clusters": [...]
+}
+```
+
+### JSON-LD Manifest (`/api/manifest.json`)
+
+Schema.org structured data using `Course` and `LearningResource` types. Useful for:
+- Rich search results
+- Knowledge graph integration
+- Semantic web applications
+
+### LLMs.txt (`/llms.txt`)
+
+Human and machine-readable guidance for AI agents explaining:
+- What the site is about
+- How to access content programmatically
+- Content structure overview
+- Usage guidelines
+
+### RSS Feed (`/feed.xml`)
+
+Standard RSS 2.0 feed including:
+- All clusters as items
+- All lessons as items
+- Category tags for organization
+
+### Design Principles for Machine Endpoints
+
+1. **Same Source**: All endpoints use `loadCurriculum()` - same data as human UI
+2. **CORS Enabled**: API endpoints allow cross-origin requests
+3. **Cached**: All endpoints have appropriate cache headers
+4. **Self-Documenting**: Include schema references and metadata
+
+---
+
 ## Versioning
 
 - **Schema Version**: 1.0
