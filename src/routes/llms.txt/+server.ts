@@ -8,16 +8,18 @@
  */
 import type { RequestHandler } from './$types';
 import { loadCurriculum } from '$lib/data/curriculum.server';
+import { config } from '$lib/config';
 
-const SITE_URL = 'https://devices-curriculum.netlify.app';
+const SITE_URL = config.siteUrl;
+const settings = config.settings;
 
 export const GET: RequestHandler = async () => {
 	const clusters = loadCurriculum();
 	const totalLessons = clusters.reduce((sum, c) => sum + c.lessons.length, 0);
 
-	const content = `# DEVICES Curriculum
+	const content = `# ${settings.title}
 
-> A self-directed research curriculum exploring how devices—material, conceptual, and ritual—shape human reality and behavior.
+> ${settings.description}
 
 ## About This Site
 
@@ -67,8 +69,7 @@ ${cluster.description}
 
 ## Contact
 
-- Author: K41R0N
-- Substack: https://k41r0n.substack.com
+- Author: ${settings.author}
 `;
 
 	return new Response(content, {

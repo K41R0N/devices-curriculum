@@ -5,12 +5,14 @@
  * machine-readable content endpoints.
  */
 import type { RequestHandler } from './$types';
+import { config } from '$lib/config';
 
-const SITE_URL = 'https://devices-curriculum.netlify.app';
+const SITE_URL = config.siteUrl;
+const settings = config.settings;
 
 export const GET: RequestHandler = async () => {
-	const content = `# DEVICES Curriculum - robots.txt
-# https://devices-curriculum.netlify.app
+	const content = `# ${settings.title} - robots.txt
+# ${SITE_URL}
 
 User-agent: *
 Allow: /

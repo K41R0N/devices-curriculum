@@ -11,8 +11,10 @@
  */
 import type { RequestHandler } from './$types';
 import { loadCurriculum } from '$lib/data/curriculum.server';
+import { config } from '$lib/config';
 
-const SITE_URL = 'https://devices-curriculum.netlify.app';
+const SITE_URL = config.siteUrl;
+const settings = config.settings;
 
 export const GET: RequestHandler = async ({ url }) => {
 	const clusters = loadCurriculum();
@@ -39,13 +41,13 @@ export const GET: RequestHandler = async ({ url }) => {
 	}));
 
 	const response = {
-		$schema: 'https://devices-curriculum.netlify.app/api/schema.json',
+		$schema: `${SITE_URL}/api/schema.json`,
 		version: '1.0',
 		generated: new Date().toISOString(),
 		site: {
-			name: 'DEVICES Curriculum',
+			name: settings.title,
 			url: SITE_URL,
-			description: 'A self-directed research curriculum exploring how devices shape human reality.'
+			description: settings.description
 		},
 		stats: {
 			totalClusters: clusters.length,
