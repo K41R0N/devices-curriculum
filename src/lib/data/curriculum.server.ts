@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import type { Cluster, Lesson } from './curriculum';
+import { DEFAULT_LOCALE, type Locale } from '$lib/i18n';
 
 /**
  * Validates that a value is a non-empty string
@@ -27,9 +28,62 @@ function toValidInteger(value: unknown): number | null {
 }
 
 /**
+ * Get the localized file path, falling back to default locale if translation doesn't exist
+ */
+function getLocalizedFile(dir: string, baseFilename: string, locale: Locale): string {
+	if (locale === DEFAULT_LOCALE) {
+		return path.join(dir, baseFilename);
+	}
+
+	// Try locale-specific file first: filename.es-CO.md
+	const ext = path.extname(baseFilename);
+	const base = baseFilename.slice(0, -ext.length);
+	const localizedFilename = `${base}.${locale}${ext}`;
+	const localizedPath = path.join(dir, localizedFilename);
+
+	if (fs.existsSync(localizedPath)) {
+		return localizedPath;
+	}
+
+	// Fall back to default locale file
+	return path.join(dir, baseFilename);
+}
+
+/**
+ * Get all content files for a locale from a directory
+ * For default locale: returns files without locale suffix (e.g., *.md but not *.es-CO.md)
+ * For other locales: returns files with locale suffix (e.g., *.es-CO.md)
+ * Falls back to default locale files if no translations exist
+ */
+function getLocalizedFiles(dir: string, locale: Locale): string[] {
+	const allFiles = fs.readdirSync(dir).filter((f: string) => f.endsWith('.md'));
+
+	if (locale === DEFAULT_LOCALE) {
+		// For default locale, get files without any locale suffix
+		return allFiles.filter((f: string) => !f.match(/\.[a-z]{2}(-[A-Z]{2})?\.md$/));
+	}
+
+	// For other locales, prefer locale-specific files but fall back to default
+	const defaultFiles = allFiles.filter((f: string) => !f.match(/\.[a-z]{2}(-[A-Z]{2})?\.md$/));
+	const localizedFiles = allFiles.filter((f: string) => f.endsWith(`.${locale}.md`));
+
+	// Map default files to their localized versions if available
+	return defaultFiles.map((defaultFile: string) => {
+		const ext = path.extname(defaultFile);
+		const base = defaultFile.slice(0, -ext.length);
+		const localizedFile = `${base}.${locale}${ext}`;
+
+		if (localizedFiles.includes(localizedFile)) {
+			return localizedFile;
+		}
+		return defaultFile; // Fall back to default
+	});
+}
+
+/**
  * Load and parse all clusters from markdown files (server-side only)
  */
-export function loadClusters(): Cluster[] {
+export function loadClusters(locale: Locale = DEFAULT_LOCALE): Cluster[] {
 	const clustersDir = path.join(process.cwd(), 'content', 'clusters');
 	const clustersData: Cluster[] = [];
 	const seenOrders = new Set<number>();
@@ -40,7 +94,7 @@ export function loadClusters(): Cluster[] {
 		return [];
 	}
 
-	const files = fs.readdirSync(clustersDir).filter(f => f.endsWith('.md'));
+	const files = getLocalizedFiles(clustersDir, locale);
 
 	for (const file of files) {
 		const filepath = path.join(clustersDir, file);
@@ -117,7 +171,7 @@ export function loadClusters(): Cluster[] {
 /**
  * Load and parse all lessons, associating them with clusters (server-side only)
  */
-export function loadLessons(clusters: Cluster[]): void {
+export function loadLessons(clusters: Cluster[], locale: Locale = DEFAULT_LOCALE): void {
 	const lessonsDir = path.join(process.cwd(), 'content', 'lessons');
 	const clusterMap = new Map(clusters.map(c => [c.slug, c]));
 	const errors: string[] = [];
@@ -128,7 +182,7 @@ export function loadLessons(clusters: Cluster[]): void {
 		return;
 	}
 
-	const files = fs.readdirSync(lessonsDir).filter(f => f.endsWith('.md'));
+	const files = getLocalizedFiles(lessonsDir, locale);
 
 	for (const file of files) {
 		const filepath = path.join(lessonsDir, file);
@@ -211,8 +265,8 @@ export function loadLessons(clusters: Cluster[]): void {
 /**
  * Load the complete curriculum data (server-side only)
  */
-export function loadCurriculum(): Cluster[] {
-	const clusters = loadClusters();
-	loadLessons(clusters);
+export function loadCurriculum(locale: Locale = DEFAULT_LOCALE): Cluster[] {
+	const clusters = loadClusters(locale);
+	loadLessons(clusters, locale);
 	return clusters;
 }

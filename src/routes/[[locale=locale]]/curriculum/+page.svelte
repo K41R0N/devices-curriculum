@@ -1,11 +1,15 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { localizedPath, type Locale } from '$lib/i18n';
 
 	export let data: PageData;
 
 	// Configuration: number of foundation clusters (first N clusters)
 	// Keep in sync with homepage FOUNDATION_COUNT
 	const FOUNDATION_COUNT = 3;
+
+	// Locale from layout data
+	$: locale = (data.locale || 'en') as Locale;
 
 	// Safe clusters array with defensive check
 	$: clusters = Array.isArray(data?.clusters) ? data.clusters : [];
@@ -26,24 +30,45 @@
 	function formatNumber(n: number): string {
 		return n.toString().padStart(2, '0');
 	}
+
+	// Translations
+	$: t = {
+		curriculum: locale === 'es-CO' ? 'Currículo' : 'Curriculum',
+		theCurriculum: locale === 'es-CO' ? 'El Currículo' : 'The Curriculum',
+		description: locale === 'es-CO'
+			? 'Un viaje estructurado a través de conceptos fundacionales y aplicaciones especializadas.'
+			: 'A structured journey through foundational concepts and specialized applications.',
+		startAnywhere: locale === 'es-CO'
+			? 'Comienza donde quieras, pero los fundamentos proporcionan contexto esencial para todo lo que sigue.'
+			: 'Start anywhere, but the foundations provide essential context for everything that follows.',
+		clusters: locale === 'es-CO' ? 'Clusters' : 'Clusters',
+		lessons: locale === 'es-CO' ? 'Lecciones' : 'Lessons',
+		startReading: locale === 'es-CO' ? 'Comenzar a Leer' : 'Start Reading',
+		foundations: locale === 'es-CO' ? 'Fundamentos' : 'Foundations',
+		foundationsDesc: locale === 'es-CO' ? 'La base conceptual para todo el marco.' : 'The conceptual groundwork for the entire framework.',
+		specializations: locale === 'es-CO' ? 'Especializaciones' : 'Specializations',
+		specializationsDesc: locale === 'es-CO' ? 'Aplicando conceptos fundacionales a dominios específicos.' : 'Applying foundational concepts to specific domains.',
+		backToHome: locale === 'es-CO' ? 'Volver al Inicio' : 'Back to Home',
+		start: locale === 'es-CO' ? 'Comenzar' : 'Start'
+	};
 </script>
 
 <svelte:head>
-	<title>Curriculum | DEVICES</title>
-	<meta name="description" content="The complete curriculum organized into thematic clusters." />
+	<title>{t.curriculum} | DEVICES</title>
+	<meta name="description" content={t.description} />
 </svelte:head>
 
 <!-- Sticky Header -->
 <header class="curriculum-header">
 	<div class="curriculum-header-content">
-		<a href="/" class="header-home-btn" aria-label="Home">
+		<a href={localizedPath('/', locale)} class="header-home-btn" aria-label="Home">
 			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
 				<polyline points="9 22 9 12 15 12 15 22"/>
 			</svg>
 		</a>
-		<h2 class="header-title">Curriculum</h2>
-		<a href="/about" class="header-about-btn" aria-label="About">
+		<h2 class="header-title">{t.curriculum}</h2>
+		<a href={localizedPath('/about', locale)} class="header-about-btn" aria-label="About">
 			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<circle cx="12" cy="12" r="10"/>
 				<path d="M12 16v-4M12 8h.01"/>
@@ -56,23 +81,23 @@
 <main class="curriculum-main">
 	<!-- Hero Section -->
 	<div class="curriculum-hero">
-		<h1 class="curriculum-title">The Curriculum</h1>
+		<h1 class="curriculum-title">{t.theCurriculum}</h1>
 		<p class="curriculum-description">
-			A structured journey through foundational concepts and specialized applications.
-			Start anywhere, but the foundations provide essential context for everything that follows.
+			{t.description}
+			{t.startAnywhere}
 		</p>
 		<div class="curriculum-stats">
 			<span class="stat">
-				<strong>{totalClusters}</strong> Clusters
+				<strong>{totalClusters}</strong> {t.clusters}
 			</span>
 			<span class="stat-divider">·</span>
 			<span class="stat">
-				<strong>{totalLessons}</strong> Lessons
+				<strong>{totalLessons}</strong> {t.lessons}
 			</span>
 		</div>
 		{#if firstCluster && firstLesson}
-			<a href="/curriculum/{firstCluster.slug}/{firstLesson.slug}" class="curriculum-cta">
-				Start Reading
+			<a href={localizedPath(`/curriculum/${firstCluster.slug}/${firstLesson.slug}`, locale)} class="curriculum-cta">
+				{t.startReading}
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M5 12h14M12 5l7 7-7 7"/>
 				</svg>
@@ -84,13 +109,13 @@
 	{#if foundationClusters.length > 0}
 		<section class="cluster-section">
 			<div class="section-header">
-				<h2 class="section-title">Foundations</h2>
-				<p class="section-subtitle">The conceptual groundwork for the entire framework.</p>
+				<h2 class="section-title">{t.foundations}</h2>
+				<p class="section-subtitle">{t.foundationsDesc}</p>
 			</div>
 
 			<div class="cluster-grid">
 				{#each foundationClusters as cluster, i}
-					<a href="/curriculum/{cluster.slug}" class="cluster-card">
+					<a href={localizedPath(`/curriculum/${cluster.slug}`, locale)} class="cluster-card">
 						<div class="cluster-card-content">
 							<div class="cluster-number-badge">
 								{formatNumber(cluster.id)}
@@ -98,7 +123,7 @@
 							<div class="cluster-info">
 								<h3 class="cluster-card-title">{cluster.title}</h3>
 								<p class="cluster-card-description">{cluster.description}</p>
-								<span class="cluster-lesson-count">{cluster.lessons?.length ?? 0} lessons</span>
+								<span class="cluster-lesson-count">{cluster.lessons?.length ?? 0} {locale === 'es-CO' ? 'lecciones' : 'lessons'}</span>
 							</div>
 							<div class="cluster-arrow">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -123,13 +148,13 @@
 
 		<section class="cluster-section">
 			<div class="section-header">
-				<h2 class="section-title">Specializations</h2>
-				<p class="section-subtitle">Applying foundational concepts to specific domains.</p>
+				<h2 class="section-title">{t.specializations}</h2>
+				<p class="section-subtitle">{t.specializationsDesc}</p>
 			</div>
 
 			<div class="cluster-grid">
 				{#each specializationClusters as cluster, i}
-					<a href="/curriculum/{cluster.slug}" class="cluster-card">
+					<a href={localizedPath(`/curriculum/${cluster.slug}`, locale)} class="cluster-card">
 						<div class="cluster-card-content">
 							<div class="cluster-number-badge">
 								{formatNumber(cluster.id)}
@@ -137,7 +162,7 @@
 							<div class="cluster-info">
 								<h3 class="cluster-card-title">{cluster.title}</h3>
 								<p class="cluster-card-description">{cluster.description}</p>
-								<span class="cluster-lesson-count">{cluster.lessons?.length ?? 0} lessons</span>
+								<span class="cluster-lesson-count">{cluster.lessons?.length ?? 0} {locale === 'es-CO' ? 'lecciones' : 'lessons'}</span>
 							</div>
 							<div class="cluster-arrow">
 								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -156,15 +181,15 @@
 
 	<!-- Bottom Navigation -->
 	<nav class="curriculum-footer-nav">
-		<a href="/" class="footer-nav-link">
+		<a href={localizedPath('/', locale)} class="footer-nav-link">
 			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M19 12H5M12 19l-7-7 7-7"/>
 			</svg>
-			Back to Home
+			{t.backToHome}
 		</a>
 		{#if firstCluster}
-			<a href="/curriculum/{firstCluster.slug}" class="footer-nav-link footer-nav-primary">
-				Start: {firstCluster.title}
+			<a href={localizedPath(`/curriculum/${firstCluster.slug}`, locale)} class="footer-nav-link footer-nav-primary">
+				{t.start}: {firstCluster.title}
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M5 12h14M12 5l7 7-7 7"/>
 				</svg>

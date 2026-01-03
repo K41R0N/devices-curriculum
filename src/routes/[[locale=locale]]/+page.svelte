@@ -1,10 +1,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { localizedPath, type Locale } from '$lib/i18n';
 
 	export let data: PageData;
 
 	// Configuration: number of foundation clusters (first N clusters)
 	const FOUNDATION_COUNT = 3;
+
+	// Locale from layout data
+	$: locale = (data.locale || 'en') as Locale;
 
 	// Defensive access to page data
 	$: home = data.home;
@@ -25,9 +29,12 @@
 	$: firstLesson = firstCluster?.lessons?.[0];
 
 	// Safe CTA href - falls back to /curriculum if no lesson available
-	$: ctaHref = firstCluster?.slug && firstLesson?.slug
-		? `/curriculum/${firstCluster.slug}/${firstLesson.slug}`
-		: '/curriculum';
+	$: ctaHref = localizedPath(
+		firstCluster?.slug && firstLesson?.slug
+			? `/curriculum/${firstCluster.slug}/${firstLesson.slug}`
+			: '/curriculum',
+		locale
+	);
 
 	/**
 	 * Safely convert simple markdown to HTML
@@ -71,7 +78,7 @@
 	<div class="hero-content">
 		<!-- Book Cover Card -->
 		<div class="book-cover">
-			<span class="book-label">Self-Directed Research</span>
+			<span class="book-label">{locale === 'es-CO' ? 'Investigación Autodirigida' : 'Self-Directed Research'}</span>
 			<h1 class="book-title">{home.title}</h1>
 			<p class="book-tagline">{home.tagline}</p>
 			<a href={ctaHref} class="book-cta">
@@ -86,16 +93,16 @@
 	{#if foundationClusters.length > 0}
 		<!-- Foundations -->
 		<section class="cluster-group">
-			<h2 class="group-title">Foundations</h2>
-			<p class="group-subtitle">The conceptual groundwork—mediation, embodiment, and ritual.</p>
+			<h2 class="group-title">{locale === 'es-CO' ? 'Fundamentos' : 'Foundations'}</h2>
+			<p class="group-subtitle">{locale === 'es-CO' ? 'La base conceptual—mediación, encarnación y ritual.' : 'The conceptual groundwork—mediation, embodiment, and ritual.'}</p>
 
 			<div class="cluster-list">
 				{#each foundationClusters as cluster}
-					<a href="/curriculum/{cluster.slug}" class="cluster-item">
-						<span class="cluster-number">Cluster {cluster.id}</span>
+					<a href={localizedPath(`/curriculum/${cluster.slug}`, locale)} class="cluster-item">
+						<span class="cluster-number">{locale === 'es-CO' ? 'Cluster' : 'Cluster'} {cluster.id}</span>
 						<h3 class="cluster-title">{cluster.title}</h3>
 						<p class="cluster-description">{cluster.description}</p>
-						<span class="cluster-lessons">{cluster.lessons?.length ?? 0} lessons</span>
+						<span class="cluster-lessons">{cluster.lessons?.length ?? 0} {locale === 'es-CO' ? 'lecciones' : 'lessons'}</span>
 					</a>
 				{/each}
 			</div>
@@ -109,16 +116,16 @@
 
 		<!-- Specializations -->
 		<section class="cluster-group">
-			<h2 class="group-title">Specializations</h2>
-			<p class="group-subtitle">Applying the foundations to technology, media, ideology, and social evolution.</p>
+			<h2 class="group-title">{locale === 'es-CO' ? 'Especializaciones' : 'Specializations'}</h2>
+			<p class="group-subtitle">{locale === 'es-CO' ? 'Aplicando los fundamentos a tecnología, medios, ideología y evolución social.' : 'Applying the foundations to technology, media, ideology, and social evolution.'}</p>
 
 			<div class="cluster-list">
 				{#each specializationClusters as cluster}
-					<a href="/curriculum/{cluster.slug}" class="cluster-item">
-						<span class="cluster-number">Cluster {cluster.id}</span>
+					<a href={localizedPath(`/curriculum/${cluster.slug}`, locale)} class="cluster-item">
+						<span class="cluster-number">{locale === 'es-CO' ? 'Cluster' : 'Cluster'} {cluster.id}</span>
 						<h3 class="cluster-title">{cluster.title}</h3>
 						<p class="cluster-description">{cluster.description}</p>
-						<span class="cluster-lessons">{cluster.lessons?.length ?? 0} lessons</span>
+						<span class="cluster-lessons">{cluster.lessons?.length ?? 0} {locale === 'es-CO' ? 'lecciones' : 'lessons'}</span>
 					</a>
 				{/each}
 			</div>
@@ -131,7 +138,7 @@
 			<div class="section-divider"></div>
 		{/if}
 		<section class="approach-section">
-			<h2 class="approach-title">The Approach</h2>
+			<h2 class="approach-title">{locale === 'es-CO' ? 'El Enfoque' : 'The Approach'}</h2>
 			<div class="approach-content">
 				{@html approachHtml}
 			</div>
