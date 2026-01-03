@@ -292,10 +292,40 @@ Style requirements:
 
 ### Initial Deployment
 
-1. Push to GitHub repository
-2. Connect to Netlify (build settings in `netlify.toml`)
-3. Set up Sveltia CMS authentication (Cloudflare Worker)
-4. Configure GitHub OAuth App
+**Quick Start:** Use the deploy buttons in the README for one-click setup.
+
+**Manual Setup:**
+
+1. **Push to GitHub repository**
+
+2. **Deploy to Netlify**
+   - Import the repository
+   - Build settings are pre-configured in `netlify.toml`
+
+3. **Configure environment variables** in Netlify Dashboard:
+
+   | Variable | Description |
+   |----------|-------------|
+   | `PUBLIC_SITE_URL` | Your site's canonical URL (e.g., `https://my-curriculum.netlify.app`) |
+
+4. **Deploy CMS authentication** to Cloudflare Workers:
+   - Deploy [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth)
+   - Set secrets: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `ALLOWED_DOMAINS`
+
+5. **Create GitHub OAuth App:**
+   - Go to GitHub → Settings → Developer settings → OAuth Apps
+   - Set callback URL to: `https://your-worker.workers.dev/callback`
+
+6. **Update CMS configuration** in `static/admin/config.yml`:
+   ```yaml
+   backend:
+     name: github
+     repo: YOUR_USERNAME/YOUR_REPO
+     branch: main
+     base_url: https://your-worker.workers.dev
+   ```
+
+7. **Customize site settings** in `content/settings/site.json`
 
 ### Ongoing Maintenance
 

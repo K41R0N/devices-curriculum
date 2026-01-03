@@ -2,7 +2,13 @@
 
 A self-directed research curriculum exploring how devices—material, conceptual, and ritual—shape human reality. Built with SvelteKit, Sveltia CMS, and a front-end agnostic content architecture.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/devices-curriculum/deploys)
+## Deploy Your Own
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/K41R0N/devices-curriculum)
+
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/sveltia/sveltia-cms-auth)
+
+> **Note:** Deploy the Netlify site first, then the Cloudflare Worker for CMS authentication. See [Configuration](#configuration) below.
 
 ## Overview
 
@@ -64,22 +70,65 @@ The site will be available at `http://localhost:5173`.
 
 ### Deploying Your Own
 
-1. **Fork this repository**
+#### Step 1: Deploy to Netlify
 
-2. **Connect to Netlify**
-   - Import the repository in Netlify
-   - Build settings are pre-configured in `netlify.toml`
+Click the "Deploy to Netlify" button above, or:
 
-3. **Set up CMS Authentication**
-   - Deploy [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) to Cloudflare Workers
-   - Create a GitHub OAuth App
-   - Update `static/admin/config.yml` with your auth URL and repo
+1. Fork this repository
+2. Import the repository in Netlify
+3. Build settings are pre-configured in `netlify.toml`
 
-4. **Configure your site**
-   - Update `content/settings/site.json` with your details
-   - Edit `static/admin/config.yml` to point to your repo
+#### Step 2: Configure Environment Variables
 
-See [METHODOLOGY.md](./METHODOLOGY.md) for detailed setup instructions.
+In Netlify Dashboard → Site settings → Environment variables:
+
+| Variable | Required | Description | Example |
+|----------|----------|-------------|---------|
+| `PUBLIC_SITE_URL` | Yes | Your site's canonical URL | `https://my-curriculum.netlify.app` |
+
+#### Step 3: Deploy CMS Authentication
+
+Click the "Deploy to Cloudflare Workers" button above to deploy `sveltia-cms-auth`.
+
+During deployment, set these secrets in Cloudflare:
+
+| Secret | Description |
+|--------|-------------|
+| `GITHUB_CLIENT_ID` | From your GitHub OAuth App |
+| `GITHUB_CLIENT_SECRET` | From your GitHub OAuth App |
+| `ALLOWED_DOMAINS` | Your Netlify domain (exact, no protocol): `my-curriculum.netlify.app` |
+
+#### Step 4: Create GitHub OAuth App
+
+1. Go to GitHub → Settings → Developer settings → OAuth Apps → New OAuth App
+2. Set **Authorization callback URL** to: `https://your-worker.workers.dev/callback`
+3. Copy Client ID and Client Secret to your Cloudflare Worker secrets
+
+#### Step 5: Update CMS Configuration
+
+Edit `static/admin/config.yml`:
+
+```yaml
+backend:
+  name: github
+  repo: YOUR_USERNAME/YOUR_REPO  # Change this
+  branch: main
+  base_url: https://your-worker.workers.dev  # Your Cloudflare Worker URL
+```
+
+#### Step 6: Customize Site Settings
+
+Edit `content/settings/site.json` via CMS or directly:
+
+```json
+{
+  "title": "Your Curriculum Title",
+  "description": "Your curriculum description.",
+  "author": "Your Name"
+}
+```
+
+See [METHODOLOGY.md](./METHODOLOGY.md) for detailed curriculum building instructions.
 
 ## Project Structure
 
