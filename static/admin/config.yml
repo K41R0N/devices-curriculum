@@ -112,9 +112,10 @@ collections:
         label: Home Page
         file: content/pages/home.md
         fields:
-          - { label: Hero Title, name: hero_title, widget: string }
-          - { label: Hero Subtitle, name: hero_subtitle, widget: text }
-          - { label: Approach Section, name: body, widget: markdown }
+          - { label: Title, name: title, widget: string, hint: "Main curriculum title (displayed in book cover)" }
+          - { label: Tagline, name: tagline, widget: text, hint: "One-sentence value proposition" }
+          - { label: CTA Button Text, name: cta_text, widget: string, default: "Begin Reading", hint: "Call-to-action button text" }
+          - { label: Approach Section, name: body, widget: markdown, required: false, hint: "Optional philosophy/methodology section below clusters" }
 
   # Site settings
   - name: settings
