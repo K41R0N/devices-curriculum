@@ -2,12 +2,11 @@
 title: About This Project
 subtitle: A research curriculum for understanding how devices shape human reality.
 ---
+## The Unified Theory of Devices
 
-## The DEVICES Framework
+Devices are a unified theory for understanding how material, conceptual, and ritual instruments shape human reality. It examines how these devices mediate our experience, become embodied through practice, and propagate through social systems.
 
-DEVICES is a unified theory for understanding how material, conceptual, and ritual instruments shape human reality. It examines how these devices mediate our experience, become embodied through practice, and propagate through social systems.
-
-This curriculum is designed to provide the intellectual foundation for engaging deeply with this framework. It is not a comprehensive survey of any single field, but a curated selection of seminal texts that illuminate the core mechanisms of how devices operate.
+This curriculum is designed to provide the intellectual foundation for engaging deeply with how they're constructed and integrated into society. It is not a comprehensive survey of any single field, but a curated selection of seminal texts that illuminate the core mechanisms of how devices operate.
 
 ## The Approach
 
@@ -21,16 +20,16 @@ In an age where content creation is heavily automated, going for depth instead o
 
 Each lesson includes:
 
-- **Introduction:** Context for why this reading matters for the DEVICES framework
+- **Introduction:** Context for why this reading matters of devices.
 - **Key Concepts:** The core ideas you need to understand
 - **Assignment:** Direct links to the primary reading
 - **Knowledge Check:** Questions to test your understanding
 - **Additional Resources:** Related readings to branch out from
 
-The curriculum is designed to be used actively—engaging each text by asking: *How does this illuminate the DEVICES framework? What new dimensions does it reveal?*
+The curriculum is designed to be used actively—engaging each text by asking: _How does this illuminate devices as society-building constructs? What new dimensions does it reveal?_
 
 ## About K41R0N
 
-This curriculum is part of the [K41R0N](https://k41r0n.substack.com) publication, which explores how devices shape human reality. The goal is to build a solid foundation for a unified theory of devices—something to project energy into from a product standpoint, from an essayist standpoint, from every angle.
+This curriculum is part of [K41R0N](https://k41r0n.substack.com)'s personal publication, which explores how devices shape human reality. The goal is to build a solid foundation for a unified theory of devices—something to project energy into from a product standpoint, from an essayist standpoint, from every angle.
 
 If you're building your own research curriculum, I'd love to hear about it. The new internet has space for digital scholars who go deep instead of wide.
