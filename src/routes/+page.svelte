@@ -3,12 +3,27 @@
 
 	export let data: PageData;
 
+	// Configuration: number of foundation clusters (first N clusters)
+	const FOUNDATION_COUNT = 3;
+
+	// Defensive access to page data
 	$: home = data.home;
 	$: settings = data.settings;
-	$: foundationClusters = data.clusters.slice(0, 3);
-	$: specializationClusters = data.clusters.slice(3);
-	$: firstLesson = data.clusters[0]?.lessons[0];
-	$: firstClusterSlug = data.clusters[0]?.slug;
+
+	// Safe clusters array with defensive check
+	$: clusters = Array.isArray(data?.clusters) ? data.clusters : [];
+
+	// Group clusters by foundation vs specialization
+	$: foundationClusters = clusters.slice(0, FOUNDATION_COUNT);
+	$: specializationClusters = clusters.slice(FOUNDATION_COUNT);
+
+	// Compute total lessons across all clusters
+	$: totalLessons = clusters.reduce((sum, c) => sum + (c.lessons?.length ?? 0), 0);
+
+	// Safe access to first lesson for CTA
+	$: firstCluster = clusters[0];
+	$: firstLesson = firstCluster?.lessons?.[0];
+	$: firstClusterSlug = firstCluster?.slug;
 </script>
 
 <svelte:head>
@@ -36,45 +51,53 @@
 
 <!-- Curriculum Overview -->
 <main class="home-main">
-	<!-- Foundations -->
-	<section class="cluster-group">
-		<h2 class="group-title">Foundations</h2>
-		<p class="group-subtitle">The conceptual groundwork—mediation, embodiment, and ritual.</p>
+	{#if foundationClusters.length > 0}
+		<!-- Foundations -->
+		<section class="cluster-group">
+			<h2 class="group-title">Foundations</h2>
+			<p class="group-subtitle">The conceptual groundwork—mediation, embodiment, and ritual.</p>
 
-		<div class="cluster-list">
-			{#each foundationClusters as cluster}
-				<a href="/curriculum/{cluster.slug}" class="cluster-item">
-					<span class="cluster-number">Cluster {cluster.id}</span>
-					<h3 class="cluster-title">{cluster.title}</h3>
-					<p class="cluster-description">{cluster.description}</p>
-					<span class="cluster-lessons">{cluster.lessons.length} lessons</span>
-				</a>
-			{/each}
-		</div>
-	</section>
+			<div class="cluster-list">
+				{#each foundationClusters as cluster}
+					<a href="/curriculum/{cluster.slug}" class="cluster-item">
+						<span class="cluster-number">Cluster {cluster.id}</span>
+						<h3 class="cluster-title">{cluster.title}</h3>
+						<p class="cluster-description">{cluster.description}</p>
+						<span class="cluster-lessons">{cluster.lessons?.length ?? 0} lessons</span>
+					</a>
+				{/each}
+			</div>
+		</section>
+	{/if}
 
-	<div class="section-divider"></div>
+	{#if specializationClusters.length > 0}
+		{#if foundationClusters.length > 0}
+			<div class="section-divider"></div>
+		{/if}
 
-	<!-- Specializations -->
-	<section class="cluster-group">
-		<h2 class="group-title">Specializations</h2>
-		<p class="group-subtitle">Applying the foundations to technology, media, ideology, and social evolution.</p>
+		<!-- Specializations -->
+		<section class="cluster-group">
+			<h2 class="group-title">Specializations</h2>
+			<p class="group-subtitle">Applying the foundations to technology, media, ideology, and social evolution.</p>
 
-		<div class="cluster-list">
-			{#each specializationClusters as cluster}
-				<a href="/curriculum/{cluster.slug}" class="cluster-item">
-					<span class="cluster-number">Cluster {cluster.id}</span>
-					<h3 class="cluster-title">{cluster.title}</h3>
-					<p class="cluster-description">{cluster.description}</p>
-					<span class="cluster-lessons">{cluster.lessons.length} lessons</span>
-				</a>
-			{/each}
-		</div>
-	</section>
+			<div class="cluster-list">
+				{#each specializationClusters as cluster}
+					<a href="/curriculum/{cluster.slug}" class="cluster-item">
+						<span class="cluster-number">Cluster {cluster.id}</span>
+						<h3 class="cluster-title">{cluster.title}</h3>
+						<p class="cluster-description">{cluster.description}</p>
+						<span class="cluster-lessons">{cluster.lessons?.length ?? 0} lessons</span>
+					</a>
+				{/each}
+			</div>
+		</section>
+	{/if}
 
 	<!-- Approach Section (from CMS body) -->
-	{#if home.body}
-		<div class="section-divider"></div>
+	{#if home?.body}
+		{#if clusters.length > 0}
+			<div class="section-divider"></div>
+		{/if}
 		<section class="approach-section">
 			<h2 class="approach-title">The Approach</h2>
 			<div class="approach-content">
@@ -85,10 +108,18 @@
 
 	<!-- Footer -->
 	<footer class="home-footer">
-		<p class="footer-tagline">{settings.footer_text}</p>
-		<p class="footer-author">
-			<a href={settings.substack_url} target="_blank" rel="noopener">{settings.author}</a>
-		</p>
+		{#if settings?.footer_text}
+			<p class="footer-tagline">{settings.footer_text}</p>
+		{/if}
+		{#if settings?.author}
+			<p class="footer-author">
+				{#if settings.substack_url}
+					<a href={settings.substack_url} target="_blank" rel="noopener">{settings.author}</a>
+				{:else}
+					{settings.author}
+				{/if}
+			</p>
+		{/if}
 	</footer>
 </main>
 
