@@ -13,6 +13,21 @@ slug:
   sanitize_replacement: '-'
 
 collections:
+  # Clusters - the thematic groupings of lessons
+  - name: clusters
+    label: Clusters
+    label_singular: Cluster
+    folder: content/clusters
+    create: true
+    slug: '{{slug}}'
+    sortable_fields: ['order', 'title']
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Slug, name: slug, widget: string }
+      - { label: Order, name: order, widget: number, value_type: int, min: 1 }
+      - { label: Description, name: description, widget: text }
+      - { label: Overview, name: body, widget: markdown, required: false }
+
   # Lessons - the main content of the curriculum
   - name: lessons
     label: Lessons
@@ -20,22 +35,17 @@ collections:
     folder: content/lessons
     create: true
     slug: '{{cluster}}-{{slug}}'
+    sortable_fields: ['order', 'title', 'cluster']
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Slug, name: slug, widget: string }
       - label: Cluster
         name: cluster
-        widget: select
-        options:
-          - { label: 'Mediation Architecture & Reality Framing', value: mediation-architecture }
-          - { label: 'Embodiment, Repetition & Internalization', value: embodiment-repetition }
-          - { label: 'Ritual Structures & Sacred Dimensions', value: ritual-structures }
-          - { label: 'Technology, Material Culture & Non-Neutrality', value: technology-material-culture }
-          - { label: 'Adoption, Diffusion & Network Effects', value: adoption-diffusion }
-          - { label: 'Language, Naming & Conceptual Devices', value: language-naming }
-          - { label: 'Reality Construction & Media Devices', value: reality-construction }
-          - { label: 'Ideology, Power & Device Non-Neutrality', value: ideology-power }
-          - { label: 'Comparative Genesis & Competitive Dynamics', value: comparative-genesis }
+        widget: relation
+        collection: clusters
+        value_field: slug
+        search_fields: ['title', 'slug']
+        display_fields: ['title']
       - { label: Author, name: author, widget: string, required: false }
       - { label: Order, name: order, widget: number, value_type: int, min: 1 }
       - { label: Description, name: description, widget: text }
