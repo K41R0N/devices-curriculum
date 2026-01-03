@@ -13,6 +13,7 @@ slug:
   sanitize_replacement: '-'
 
 collections:
+  # Lessons - the main content of the curriculum
   - name: lessons
     label: Lessons
     label_singular: Lesson
@@ -26,20 +27,19 @@ collections:
         name: cluster
         widget: select
         options:
-          - { label: '1. Mediation Architecture & Reality Framing', value: mediation-architecture }
-          - { label: '2. Embodiment, Repetition & Internalization', value: embodiment-repetition }
-          - { label: '3. Ritual Structures & Sacred Dimensions', value: ritual-structures }
-          - { label: '4. Technology, Material Culture & Non-Neutrality', value: technology-material-culture }
-          - { label: '5. Adoption, Diffusion & Network Effects', value: adoption-diffusion }
-          - { label: '6. Language, Naming & Conceptual Devices', value: language-naming }
-          - { label: '7. Reality Construction & Media Devices', value: reality-construction }
-          - { label: '8. Ideology, Power & Device Non-Neutrality', value: ideology-power }
-          - { label: '9. Comparative Genesis & Competitive Dynamics', value: comparative-genesis }
+          - { label: 'Mediation Architecture & Reality Framing', value: mediation-architecture }
+          - { label: 'Embodiment, Repetition & Internalization', value: embodiment-repetition }
+          - { label: 'Ritual Structures & Sacred Dimensions', value: ritual-structures }
+          - { label: 'Technology, Material Culture & Non-Neutrality', value: technology-material-culture }
+          - { label: 'Adoption, Diffusion & Network Effects', value: adoption-diffusion }
+          - { label: 'Language, Naming & Conceptual Devices', value: language-naming }
+          - { label: 'Reality Construction & Media Devices', value: reality-construction }
+          - { label: 'Ideology, Power & Device Non-Neutrality', value: ideology-power }
+          - { label: 'Comparative Genesis & Competitive Dynamics', value: comparative-genesis }
       - { label: Author, name: author, widget: string, required: false }
       - { label: Order, name: order, widget: number, value_type: int, min: 1 }
       - { label: Description, name: description, widget: text }
-      - { label: Featured Image, name: featured_image, widget: image, required: false, media_folder: /static/images/lessons, public_folder: /images/lessons }
-      - { label: Introduction, name: introduction, widget: markdown }
+      - { label: Featured Image, name: featured_image, widget: image, required: false }
       - label: Learning Objectives
         name: objectives
         widget: list
@@ -57,40 +57,24 @@ collections:
           - { label: Instructions, name: instructions, widget: markdown }
           - { label: Reading URL, name: url, widget: string, required: false }
           - { label: Reading Title, name: reading_title, widget: string, required: false }
-      - label: Knowledge Check Questions
+      - label: Knowledge Check
         name: knowledge_check
         widget: list
         fields:
           - { label: Question, name: question, widget: string }
-          - { label: Answer Hint, name: hint, widget: text, required: false }
+          - { label: Hint, name: hint, widget: text, required: false }
       - label: Additional Resources
         name: additional_resources
         widget: list
+        required: false
         fields:
           - { label: Title, name: title, widget: string }
           - { label: Author, name: author, widget: string, required: false }
           - { label: URL, name: url, widget: string, required: false }
           - { label: Description, name: description, widget: text }
+      - { label: Introduction, name: body, widget: markdown }
 
-  - name: clusters
-    label: Clusters
-    label_singular: Cluster
-    folder: content/clusters
-    create: true
-    slug: '{{slug}}'
-    fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Slug, name: slug, widget: string }
-      - { label: Order, name: order, widget: number, value_type: int, min: 1, max: 9 }
-      - { label: Description, name: description, widget: text }
-      - label: Section
-        name: section
-        widget: select
-        options:
-          - { label: Foundations, value: foundations }
-          - { label: Specializations, value: specializations }
-      - { label: Overview, name: body, widget: markdown, required: false }
-
+  # Static pages
   - name: pages
     label: Pages
     files:
@@ -100,15 +84,16 @@ collections:
         fields:
           - { label: Title, name: title, widget: string }
           - { label: Subtitle, name: subtitle, widget: string }
-          - { label: Body, name: body, widget: markdown }
+          - { label: Content, name: body, widget: markdown }
       - name: home
         label: Home Page
         file: content/pages/home.md
         fields:
           - { label: Hero Title, name: hero_title, widget: string }
           - { label: Hero Subtitle, name: hero_subtitle, widget: text }
-          - { label: Approach Section, name: approach, widget: markdown }
+          - { label: Approach Section, name: body, widget: markdown }
 
+  # Site settings
   - name: settings
     label: Settings
     files:
