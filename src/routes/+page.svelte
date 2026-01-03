@@ -23,7 +23,42 @@
 	// Safe access to first lesson for CTA
 	$: firstCluster = clusters[0];
 	$: firstLesson = firstCluster?.lessons?.[0];
-	$: firstClusterSlug = firstCluster?.slug;
+
+	// Safe CTA href - falls back to /curriculum if no lesson available
+	$: ctaHref = firstCluster?.slug && firstLesson?.slug
+		? `/curriculum/${firstCluster.slug}/${firstLesson.slug}`
+		: '/curriculum';
+
+	/**
+	 * Safely convert simple markdown to HTML
+	 * Escapes HTML entities first to prevent XSS, then applies safe transformations
+	 */
+	function safeMarkdown(text: string): string {
+		if (!text) return '';
+
+		// First, escape HTML entities to prevent XSS
+		const escaped = text
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#039;');
+
+		// Then apply safe markdown transformations
+		return escaped
+			// Convert double newlines to paragraph breaks
+			.replace(/\n\n+/g, '</p><p>')
+			// Wrap in paragraph tags
+			.replace(/^/, '<p>')
+			.replace(/$/, '</p>')
+			// Convert *italic* (but not escaped asterisks)
+			.replace(/\*([^*]+)\*/g, '<em>$1</em>')
+			// Convert _italic_ alternative
+			.replace(/_([^_]+)_/g, '<em>$1</em>');
+	}
+
+	// Pre-compute safe HTML for approach section
+	$: approachHtml = home?.body ? safeMarkdown(home.body) : '';
 </script>
 
 <svelte:head>
@@ -39,10 +74,7 @@
 			<span class="book-label">Self-Directed Research</span>
 			<h1 class="book-title">{home.title}</h1>
 			<p class="book-tagline">{home.tagline}</p>
-			<a
-				href="/curriculum/{firstClusterSlug}/{firstLesson?.slug}"
-				class="book-cta"
-			>
+			<a href={ctaHref} class="book-cta">
 				{home.cta_text}
 			</a>
 		</div>
@@ -101,7 +133,7 @@
 		<section class="approach-section">
 			<h2 class="approach-title">The Approach</h2>
 			<div class="approach-content">
-				{@html home.body.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>').replace(/\*([^*]+)\*/g, '<em>$1</em>')}
+				{@html approachHtml}
 			</div>
 		</section>
 	{/if}

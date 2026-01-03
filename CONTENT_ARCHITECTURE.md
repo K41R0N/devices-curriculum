@@ -375,9 +375,11 @@ export interface Page {
   body: string;            // markdown
 }
 
-export interface HomePage extends Page {
-  hero_title: string;
-  hero_subtitle: string;
+export interface HomePage {
+  title: string;           // Main curriculum title (book cover)
+  tagline: string;         // One-sentence value proposition
+  cta_text: string;        // Call-to-action button text
+  body?: string;           // Optional approach/philosophy section (markdown)
 }
 ```
 

@@ -164,7 +164,7 @@
 		</a>
 		{#if firstCluster}
 			<a href="/curriculum/{firstCluster.slug}" class="footer-nav-link footer-nav-primary">
-				Start with Cluster 1
+				Start: {firstCluster.title}
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M5 12h14M12 5l7 7-7 7"/>
 				</svg>
