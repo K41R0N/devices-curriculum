@@ -9,8 +9,10 @@
  */
 import type { RequestHandler } from './$types';
 import { loadCurriculum } from '$lib/data/curriculum.server';
+import { config } from '$lib/config';
 
-const SITE_URL = 'https://devices-curriculum.netlify.app';
+const SITE_URL = config.siteUrl;
+const settings = config.settings;
 
 export const GET: RequestHandler = async () => {
 	const clusters = loadCurriculum();
@@ -18,12 +20,12 @@ export const GET: RequestHandler = async () => {
 	const manifest = {
 		'@context': 'https://schema.org',
 		'@type': 'Course',
-		name: 'DEVICES Curriculum',
-		description: 'A self-directed research curriculum exploring how devices shape human reality.',
+		name: settings.title,
+		description: settings.description,
 		url: SITE_URL,
 		provider: {
 			'@type': 'Person',
-			name: 'K41R0N'
+			name: settings.author
 		},
 		hasCourseInstance: clusters.map(cluster => ({
 			'@type': 'CourseInstance',

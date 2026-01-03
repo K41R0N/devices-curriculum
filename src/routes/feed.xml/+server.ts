@@ -8,10 +8,12 @@
  */
 import type { RequestHandler } from './$types';
 import { loadCurriculum } from '$lib/data/curriculum.server';
+import { config } from '$lib/config';
 
-const SITE_URL = 'https://devices-curriculum.netlify.app';
-const SITE_TITLE = 'DEVICES Curriculum';
-const SITE_DESCRIPTION = 'A self-directed research curriculum exploring how devices shape human reality.';
+const SITE_URL = config.siteUrl;
+const settings = config.settings;
+const SITE_TITLE = settings.title;
+const SITE_DESCRIPTION = settings.description;
 
 export const GET: RequestHandler = async () => {
 	const clusters = loadCurriculum();
