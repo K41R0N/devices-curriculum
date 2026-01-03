@@ -1,109 +1,342 @@
-'''
-# Agent Instructions for DEVICES Curriculum Site
+# Agent Instructions for DEVICES Curriculum
 
-This document provides instructions for AI agents on how to maintain, update, and extend this project.
+Instructions for AI agents working on this project. Read this entire document before making changes.
 
 ## Project Overview
 
-This is a SvelteKit project that serves as a curriculum website for the DEVICES framework. It is designed to be deployed on Netlify and managed via Sveltia CMS (a Decap CMS compatible static CMS).
+A SvelteKit curriculum website with Git-based CMS. Content is stored as Markdown files and dynamically loaded at build/runtime.
 
-- **Framework**: SvelteKit
-- **CMS**: Sveltia CMS
-- **Deployment**: Netlify
-- **Content Source**: Markdown files in the `/content` directory.
+| Aspect | Details |
+|--------|---------|
+| Framework | SvelteKit with TypeScript |
+| CMS | Sveltia CMS (Decap/Netlify CMS compatible) |
+| Hosting | Netlify with serverless functions |
+| Content | Markdown files with YAML frontmatter |
 
-## Core Tasks
+### Key Architecture Principle
 
-### 1. Managing Content
+**Content is dynamically loaded.** There is no manual "curriculum.ts" to update. When you add/edit content files, the site automatically reflects changes.
 
-Content is the core of this project. There are two ways to manage it:
-
-**A) Through the CMS (Preferred for Content Editors)**
-
-- The CMS is located at `/admin` on the deployed site.
-- It provides a user-friendly interface for creating and editing lessons, clusters, and pages.
-- The configuration for the CMS is in `static/admin/config.yml`.
-- **Your task**: If a user asks to add or edit content, you should guide them to use the CMS interface. If you must do it yourself, you should edit the Markdown files directly as described below.
-
-**B) Directly Editing Markdown Files (Preferred for Agents)**
-
-- All content is stored in the `/content` directory.
-- **Lessons**: `content/lessons/`
-- **Clusters**: `content/clusters/`
-- **Pages**: `content/pages/`
-- **Settings**: `content/settings/`
-
-To add a new lesson:
-1.  Create a new Markdown file in `content/lessons/`.
-2.  The filename should be `CLUSTER_SLUG-LESSON_SLUG.md` (e.g., `mediation-architecture-social-construction-of-reality.md`).
-3.  The file must contain YAML frontmatter that matches the fields defined in `static/admin/config.yml` for the `lessons` collection.
-4.  The main body of the Markdown file will be rendered as the introduction to the lesson.
-
-**Example Lesson Frontmatter:**
-```yaml
-title: The Social Construction of Reality
-slug: social-construction-of-reality
-cluster: mediation-architecture
-author: Peter Berger & Thomas Luckmann
-order: 1
-description: The foundational text for understanding how reality is socially constructed...
-objectives:
-  - Understand how reality is socially constructed...
-key_concepts:
-  - name: The Social Construction of Reality
-    explanation: "..."
-assignment:
-  instructions: "..."
-  url: "..."
-  reading_title: "..."
-knowledge_check:
-  - question: "..."
-    hint: "..."
-additional_resources:
-  - title: "..."
-    author: "..."
+```
+content/clusters/*.md  ──┐
+content/lessons/*.md   ──┼──▶ loadCurriculum() ──▶ Website + APIs
+content/pages/*.md     ──┘
 ```
 
-### 2. Updating the Curriculum Structure
+---
 
-The overall structure of the curriculum (the list of clusters and the lessons within them) is managed in `src/lib/data/curriculum.ts`.
+## Critical Files
 
-- **Your task**: If you add or remove a lesson file, you **must** also update the `clusters` array in this file to reflect the change. The website navigation and structure depend on this file.
-- The slugs in this file must match the slugs in the Markdown frontmatter and the filenames.
+| File | Purpose | When to Modify |
+|------|---------|----------------|
+| `src/lib/data/curriculum.server.ts` | Loads & validates content | Changing content loading logic |
+| `src/lib/types/content.ts` | TypeScript type definitions | Adding new content fields |
+| `static/admin/config.yml` | CMS schema definition | Adding new fields (must match types) |
+| `CONTENT_ARCHITECTURE.md` | Content schema documentation | After any schema changes |
 
-### 3. Modifying the Website's Appearance or Functionality
+### Files You Should NOT Modify (Usually)
 
-- **Layouts and Components**: Located in `src/routes/` and `src/lib/components/`.
-- **Styling**: Global styles are in `src/app.css`. Tailwind CSS is used for styling, configured in `tailwind.config.js`.
-- **Routes**: SvelteKit uses a file-based routing system. To add a new page, create a new `.svelte` file in the `src/routes/` directory.
+| File | Reason |
+|------|--------|
+| `src/lib/data/curriculum.ts` | Just re-exports types; no logic |
+| `netlify.toml` | Build config is correct |
+| `svelte.config.js` | Framework config is correct |
 
-### 4. Running the Project Locally
+---
 
-To test changes, you can run the development server.
+## Content Schema
 
-1.  **Install dependencies**:
-    ```bash
-    pnpm install
-    ```
-2.  **Run the dev server**:
-    ```bash
-    pnpm dev
-    ```
-3.  The site will be available at `http://localhost:5173`.
+### Cluster (`content/clusters/{slug}.md`)
 
-### 5. Deployment
+```yaml
+---
+title: "Cluster Title"           # Required: Display name
+slug: cluster-slug               # Required: URL identifier (unique)
+order: 1                         # Required: Sort position (1-based, unique)
+description: "Brief summary"     # Required: 1-2 sentences
+---
 
-- The site is configured for automatic deployment to Netlify.
-- Any push to the `main` branch of the GitHub repository will trigger a new build and deployment.
-- The build command is `npm run build` and the publish directory is `build`, as configured in `netlify.toml`.
-- **Your task**: Do not manually deploy. Simply push your changes to the `main` branch.
+Optional markdown body for extended overview...
+```
 
-## Important Files
+### Lesson (`content/lessons/{cluster}-{slug}.md`)
 
-- `svelte.config.js`: SvelteKit configuration, including `mdsvex` for Markdown processing.
-- `static/admin/config.yml`: Sveltia CMS configuration. This is the schema for all content.
-- `src/lib/data/curriculum.ts`: The source of truth for the curriculum structure. **Keep this file in sync with the `/content` directory.**
-- `src/routes/curriculum/[cluster]/[lesson]/+page.server.ts`: The server-side load function that reads the Markdown content for each lesson.
+```yaml
+---
+title: "Lesson Title"            # Required
+slug: lesson-slug                # Required: Unique within cluster
+cluster: cluster-slug            # Required: Must match a cluster's slug
+order: 1                         # Required: Position within cluster
+description: "Brief summary"     # Required
+author: "Author Name"            # Optional
+featured_image: "/images/..."    # Optional
+objectives:                      # Optional: List of strings
+  - "Objective 1"
+  - "Objective 2"
+key_concepts:                    # Optional: List of objects
+  - name: "Concept Name"
+    explanation: |
+      Markdown explanation...
+assignment:                      # Optional: Object
+  instructions: |
+    Markdown instructions...
+  url: "https://..."
+  reading_title: "Title"
+knowledge_check:                 # Optional: List of objects
+  - question: "Question text?"
+    hint: "Optional hint"
+additional_resources:            # Optional: List of objects
+  - title: "Resource Title"
+    author: "Author"
+    url: "https://..."
+    description: "Brief description"
+---
 
-By following these instructions, you can effectively manage and extend the DEVICES curriculum website.
-'''
+Optional markdown body for introduction...
+```
+
+### Page (`content/pages/{name}.md`)
+
+**Home page** (`home.md`):
+```yaml
+---
+hero_title: "Main Headline"
+hero_subtitle: "Supporting text"
+---
+Body content...
+```
+
+**Other pages** (`about.md`, etc.):
+```yaml
+---
+title: "Page Title"
+subtitle: "Optional subtitle"
+---
+Body content...
+```
+
+### Settings (`content/settings/site.json`)
+
+```json
+{
+  "title": "Site Name",
+  "description": "SEO description",
+  "author": "Author Name",
+  "substack_url": "https://...",
+  "footer_text": "Footer tagline"
+}
+```
+
+---
+
+## Common Tasks
+
+### Adding a New Lesson
+
+1. Create `content/lessons/{cluster-slug}-{lesson-slug}.md`
+2. Add YAML frontmatter with all required fields
+3. Ensure `cluster` field matches an existing cluster's slug
+4. Ensure `order` is unique within that cluster
+5. Add markdown body content
+
+**Validation happens at build time.** If required fields are missing or cluster doesn't exist, build fails with descriptive error.
+
+### Adding a New Cluster
+
+1. Create `content/clusters/{slug}.md`
+2. Add YAML frontmatter with required fields
+3. Ensure `order` is unique among clusters
+4. Optionally add lessons that reference this cluster
+
+### Modifying the CMS Schema
+
+When adding new fields:
+
+1. Update `src/lib/types/content.ts` with TypeScript types
+2. Update `static/admin/config.yml` with CMS field definition
+3. Update `CONTENT_ARCHITECTURE.md` documentation
+4. Update `curriculum.server.ts` if field needs special handling
+
+**Keep these three in sync:** Types ↔ CMS Config ↔ Documentation
+
+### Redesigning UI Components
+
+The UI is decoupled from content. To redesign:
+
+1. Read component contracts in `CONTENT_ARCHITECTURE.md`
+2. Components receive data via SvelteKit load functions
+3. Create new `.svelte` files that consume the same data shapes
+4. Content files remain unchanged
+
+**Data flow:**
+```
++layout.server.ts loads clusters ──▶ Available in all pages as data.clusters
++page.server.ts loads lesson    ──▶ Available as data.lesson, data.hasContent
+```
+
+### Testing Changes
+
+```bash
+# Type checking
+pnpm check
+
+# Build (includes content validation)
+pnpm build
+
+# Preview production build
+pnpm preview
+```
+
+---
+
+## API Endpoints
+
+The site provides machine-readable content at:
+
+| Endpoint | Returns |
+|----------|---------|
+| `/api/curriculum.json` | Full curriculum JSON with CORS |
+| `/api/manifest.json` | Schema.org JSON-LD |
+| `/feed.xml` | RSS 2.0 feed |
+| `/sitemap.xml` | XML sitemap |
+| `/llms.txt` | Human-readable site guide |
+| `/robots.txt` | Crawler instructions |
+
+These are SvelteKit server endpoints in `src/routes/`. They use the same `loadCurriculum()` function as the website.
+
+---
+
+## Validation Rules
+
+The content loader enforces these rules at build time:
+
+### Clusters
+- `title`, `slug`, `order`, `description` are required
+- `order` must be unique across all clusters
+- `slug` must be unique
+
+### Lessons
+- `title`, `slug`, `cluster`, `order`, `description` are required
+- `cluster` must reference an existing cluster's slug
+- `order` must be unique within the cluster
+- Filename should be `{cluster}-{slug}.md`
+
+### Build Failures
+
+If validation fails, you'll see errors like:
+```
+Error: Cluster validation errors:
+  - Invalid cluster content/clusters/foo.md: missing fields: order (integer)
+
+Error: Lesson validation errors:
+  - content/lessons/bar.md (references non-existent cluster: "invalid-cluster")
+```
+
+---
+
+## File Naming Conventions
+
+| Content | Pattern | Example |
+|---------|---------|---------|
+| Cluster | `{slug}.md` | `mediation-architecture.md` |
+| Lesson | `{cluster}-{slug}.md` | `mediation-architecture-framing.md` |
+| Page | `{name}.md` | `about.md` |
+| Image | Descriptive kebab-case | `social-construction-reality.png` |
+
+---
+
+## YAML Gotchas
+
+Common YAML issues to avoid:
+
+```yaml
+# BAD: Unquoted colon in value
+title: Part 1: Introduction
+
+# GOOD: Quote strings with colons
+title: "Part 1: Introduction"
+
+# BAD: Unescaped quotes
+instructions: Read the author's essay
+
+# GOOD: Use block scalar for complex text
+instructions: |
+  Read the author's essay "Title" carefully.
+
+# BAD: Inconsistent indentation
+key_concepts:
+- name: Foo
+   explanation: Bar  # Wrong indent
+
+# GOOD: Consistent 2-space indent
+key_concepts:
+  - name: Foo
+    explanation: Bar
+```
+
+---
+
+## Deployment
+
+- Push to `main` branch triggers Netlify build
+- Build command: `npm run build`
+- Publish directory: `build`
+- Node version: 20 (set in `netlify.toml`)
+
+**Do not:**
+- Manually deploy
+- Modify build settings in Netlify UI
+- Push to branches other than `main` for production
+
+---
+
+## Quick Reference
+
+### Required Environment
+
+- Node.js 20+
+- pnpm (preferred) or npm
+
+### Key Commands
+
+```bash
+pnpm dev        # Development server
+pnpm build      # Production build
+pnpm preview    # Preview build
+pnpm check      # TypeScript validation
+```
+
+### File Locations Summary
+
+```
+content/
+├── clusters/     # 9 cluster files
+├── lessons/      # 25 lesson files
+├── pages/        # home.md, about.md
+└── settings/     # site.json
+
+src/lib/
+├── data/
+│   ├── curriculum.ts        # Type re-exports only
+│   └── curriculum.server.ts # Content loading logic
+└── types/
+    └── content.ts           # All TypeScript types
+
+static/admin/
+└── config.yml               # CMS schema
+
+src/routes/
+├── +layout.server.ts        # Loads clusters for all pages
+├── api/                     # JSON endpoints
+├── feed.xml/                # RSS endpoint
+└── curriculum/[cluster]/[lesson]/
+    └── +page.server.ts      # Loads individual lesson
+```
+
+---
+
+## Related Documentation
+
+- [CONTENT_ARCHITECTURE.md](./CONTENT_ARCHITECTURE.md) — Full schema reference
+- [METHODOLOGY.md](./METHODOLOGY.md) — Guide for building curricula
+- [README.md](./README.md) — Project overview
