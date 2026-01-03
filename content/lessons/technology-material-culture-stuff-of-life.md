@@ -71,12 +71,11 @@ key_concepts:
 
     '
 assignment:
-  instructions: '\'Read L.M. Sacasas\'\'s essay "The Stuff of Life: Materiality and the'
-    Self." Pay close attention to his use of personal anecdotes and his engagement
+  instructions: >
+    Read L.M. Sacasas's essay "The Stuff of Life: Materiality and the Self."
+    Pay close attention to his use of personal anecdotes and his engagement
     with thinkers like Hannah Arendt and Zygmunt Bauman. Consider how the concepts
     of "texture" and "liquidity" apply to your own relationship with technology.
-
-    '
   url: "https://theconvivialsociety.substack.com/p/the-stuff-of-life-materiality-and"
   reading_title: 'The Stuff of Life: Materiality and the Self'
 knowledge_check:
