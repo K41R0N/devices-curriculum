@@ -12,48 +12,20 @@ objectives:
 - Analizar el proceso de decisión de innovación y sus etapas.
 key_concepts:
 - name: Los cinco elementos de la difusión
-  explanation: "Everett Rogers desglosa el complejo proceso de difusión en cinco elementos\
-    \ esenciales: la innovación, los canales de comunicación, el tiempo y el sistema\
-    \ social. La \"innovación\" es cualquier idea, práctica u objeto percibido como\
-    \ nuevo por un individuo. Los \"canales de comunicación\" son los medios a través\
-    \ de los cuales los mensajes pasan de un individuo a otro. El \"tiempo\" interviene\
-    \ en el proceso de decisión de innovación, la innovabilidad de un individuo y la\
-    \ tasa de adopción. Finalmente, el \"sistema social\" es el conjunto de unidades\
-    \ interrelacionadas que se dedican a la resolución conjunta de problemas para lograr\
-    \ un objetivo común.\n\nComprender estos elementos es crucial para el marco DEVICES\
-    \ porque revela que la adopción de tecnología no es solo una cuestión de características\
-    \ del dispositivo. Es un proceso social que se desarrolla en el tiempo, a través\
-    \ de varios canales y dentro de un contexto social específico. El éxito o el fracaso\
-    \ de un dispositivo no es inherente a su diseño, sino que es el producto de esta\
-    \ compleja interacción de factores.\n"
+  explanation: |
+    Everett Rogers desglosa el complejo proceso de difusión en cinco elementos esenciales: la innovación, los canales de comunicación, el tiempo y el sistema social. La "innovación" es cualquier idea, práctica u objeto percibido como nuevo por un individuo. Los "canales de comunicación" son los medios a través de los cuales los mensajes pasan de un individuo a otro. El "tiempo" interviene en el proceso de decisión de innovación, la innovabilidad de un individuo y la tasa de adopción. Finalmente, el "sistema social" es el conjunto de unidades interrelacionadas que se dedican a la resolución conjunta de problemas para lograr un objetivo común.
+
+    Comprender estos elementos es crucial para el marco DEVICES porque revela que la adopción de tecnología no es solo una cuestión de características del dispositivo. Es un proceso social que se desarrolla en el tiempo, a través de varios canales y dentro de un contexto social específico. El éxito o el fracaso de un dispositivo no es inherente a su diseño, sino que es el producto de esta compleja interacción de factores.
 - name: Categorías de adoptantes
-  explanation: "El modelo de Rogers categoriza a los adoptantes en cinco grupos según\
-    \ su capacidad de innovación: innovadores, adoptadores iniciales, mayoría temprana,\
-    \ mayoría tardía y rezagados. Los innovadores son los que corren riesgos, los primeros\
-    \ en probar una nueva idea. Los adoptadores iniciales son líderes de opinión que\
-    \ prueban nuevas ideas pero son más cuidadosos que los innovadores. La mayoría\
-    \ temprana es deliberada, adoptando nuevas ideas justo antes del miembro promedio\
-    \ de un sistema social. La mayoría tardía es escéptica, adoptando una innovación\
-    \ solo después de que la mayoría de las personas la ha probado. Los rezagados son\
-    \ tradicionalistas, los últimos en adoptar una innovación.\n\nEsta categorización\
-    \ es una herramienta poderosa para comprender cómo diferentes grupos de personas\
-    \ se relacionan con la tecnología. Nos ayuda a ver que la adopción no es un proceso\
-    \ uniforme y que se necesitan diferentes estrategias para llegar a diferentes segmentos\
-    \ de la población. Para el marco DEVICES, esto significa reconocer que la experiencia\
-    \ de un dispositivo no es universal sino que está moldeada por la posición de un\
-    \ individuo dentro de la estructura social de adopción.\n"
+  explanation: |
+    El modelo de Rogers categoriza a los adoptantes en cinco grupos según su capacidad de innovación: innovadores, adoptadores iniciales, mayoría temprana, mayoría tardía y rezagados. Los innovadores son los que corren riesgos, los primeros en probar una nueva idea. Los adoptadores iniciales son líderes de opinión que prueban nuevas ideas pero son más cuidadosos que los innovadores. La mayoría temprana es deliberada, adoptando nuevas ideas justo antes del miembro promedio de un sistema social. La mayoría tardía es escéptica, adoptando una innovación solo después de que la mayoría de las personas la ha probado. Los rezagados son tradicionalistas, los últimos en adoptar una innovación.
+
+    Esta categorización es una herramienta poderosa para comprender cómo diferentes grupos de personas se relacionan con la tecnología. Nos ayuda a ver que la adopción no es un proceso uniforme y que se necesitan diferentes estrategias para llegar a diferentes segmentos de la población. Para el marco DEVICES, esto significa reconocer que la experiencia de un dispositivo no es universal sino que está moldeada por la posición de un individuo dentro de la estructura social de adopción.
 - name: El proceso de decisión de innovación
-  explanation: "El proceso de decisión de innovación es el proceso mental a través del\
-    \ cual un individuo pasa desde el primer conocimiento de una innovación hasta formar\
-    \ una actitud hacia ella, a una decisión de adoptar o rechazar, a la implementación\
-    \ de la nueva idea y a la confirmación de esta decisión. Rogers describe cinco etapas\
-    \ en este proceso: conocimiento, persuasión, decisión, implementación y confirmación.\n\n\
-    Este proceso destaca que la adopción no es un evento único sino un viaje. Implica\
-    \ una serie de opciones y acciones, cada una de las cuales puede ser influenciada\
-    \ por una variedad de factores. Para el marco DEVICES, este proceso es un recordatorio\
-    \ de que la relación entre una persona y un dispositivo no es estática. Evoluciona\
-    \ con el tiempo a medida que el individuo gana más experiencia con el dispositivo\
-    \ e lo integra en su vida.\n"
+  explanation: |
+    El proceso de decisión de innovación es el proceso mental a través del cual un individuo pasa desde el primer conocimiento de una innovación hasta formar una actitud hacia ella, a una decisión de adoptar o rechazar, a la implementación de la nueva idea y a la confirmación de esta decisión. Rogers describe cinco etapas en este proceso: conocimiento, persuasión, decisión, implementación y confirmación.
+
+    Este proceso destaca que la adopción no es un evento único sino un viaje. Implica una serie de opciones y acciones, cada una de las cuales puede ser influenciada por una variedad de factores. Para el marco DEVICES, este proceso es un recordatorio de que la relación entre una persona y un dispositivo no es estática. Evoluciona con el tiempo a medida que el individuo gana más experiencia con el dispositivo e lo integra en su vida.
 assignment:
   instructions: 'Lee el Capítulo 1, "Elementos de difusión", en *Difusión de innovaciones*
     de Everett Rogers. Mientras lees, considera las siguientes preguntas:

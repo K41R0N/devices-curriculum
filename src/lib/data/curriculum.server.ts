@@ -28,28 +28,6 @@ function toValidInteger(value: unknown): number | null {
 }
 
 /**
- * Get the localized file path, falling back to default locale if translation doesn't exist
- */
-function getLocalizedFile(dir: string, baseFilename: string, locale: Locale): string {
-	if (locale === DEFAULT_LOCALE) {
-		return path.join(dir, baseFilename);
-	}
-
-	// Try locale-specific file first: filename.es-CO.md
-	const ext = path.extname(baseFilename);
-	const base = baseFilename.slice(0, -ext.length);
-	const localizedFilename = `${base}.${locale}${ext}`;
-	const localizedPath = path.join(dir, localizedFilename);
-
-	if (fs.existsSync(localizedPath)) {
-		return localizedPath;
-	}
-
-	// Fall back to default locale file
-	return path.join(dir, baseFilename);
-}
-
-/**
  * Get all content files for a locale from a directory
  * For default locale: returns files without locale suffix (e.g., *.md but not *.es-CO.md)
  * For other locales: returns files with locale suffix (e.g., *.es-CO.md)

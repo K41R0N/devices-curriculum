@@ -14,60 +14,17 @@ objectives:
   de la realidad.
 key_concepts:
 - name: Marcos primarios
-  explanation: 'Goffman introduce los marcos primarios como los esquemas fundamentales
-    de interpretación que nos permiten entender el mundo. Estos marcos son los lentes
-    a través de los cuales percibimos y entendemos eventos, determinando lo que consideramos
-    real y significativo. Dentro del marco DEVICES, los marcos primarios pueden verse
-    como los dispositivos conceptuales fundacionales que moldean nuestra realidad. A
-    menudo nos son invisibles, operando en el fondo de nuestra conciencia, pero son
-    la arquitectura de nuestra comprensión. Por ejemplo, la distinción entre eventos
-    "naturales" y "sociales" es un marco primario. Una roca que cae se entiende a través
-    de un marco natural, mientras que una roca lanzada se entiende a través de uno social.
-    Estos marcos no son solo modelos mentales; están encarnados en nuestras prácticas
-    e institucionalizados en nuestras estructuras sociales, dictando lo que es posible
-    pensar y hacer.
-
-    '
+  explanation: |
+    Goffman introduce los marcos primarios como los esquemas fundamentales de interpretación que nos permiten entender el mundo. Estos marcos son los lentes a través de los cuales percibimos y entendemos eventos, determinando lo que consideramos real y significativo. Dentro del marco DEVICES, los marcos primarios pueden verse como los dispositivos conceptuales fundacionales que moldean nuestra realidad. A menudo nos son invisibles, operando en el fondo de nuestra conciencia, pero son la arquitectura de nuestra comprensión. Por ejemplo, la distinción entre eventos "naturales" y "sociales" es un marco primario. Una roca que cae se entiende a través de un marco natural, mientras que una roca lanzada se entiende a través de uno social. Estos marcos no son solo modelos mentales; están encarnados en nuestras prácticas e institucionalizados en nuestras estructuras sociales, dictando lo que es posible pensar y hacer.
 - name: Encuadramiento y re-encuadramiento
-  explanation: 'El encuadramiento es el proceso de transformar una actividad que ya
-    es significativa dentro de un marco primario en algo más. Es una forma de acotar
-    una parte de la realidad y reencuadrarla bajo una nueva luz. Por ejemplo, una pelea
-    puede encuadrarse como una pelea simulada, una actuación teatral o un sueño. Cada
-    encuadramiento cambia el significado de la actividad sin cambiar su forma física.
-    El re-encuadramiento es el proceso de aplicar una nueva clave a una actividad ya
-    encuadrada. Por ejemplo, una pelea simulada podría re-encuadrarse como una sesión
-    de práctica para una pelea real. Este concepto es crucial para entender cómo los
-    dispositivos median nuestra experiencia. Los dispositivos, ya sean materiales o
-    conceptuales, a menudo se utilizan para encuadrar y re-encuadrar nuestras actividades,
-    estratificando nuevos significados en nuestra realidad. Un teléfono inteligente,
-    por ejemplo, puede encuadrar una conversación como un chat privado, una transmisión
-    pública o una actuación grabada, cada una con su propio conjunto de reglas y expectativas.
-
-    '
+  explanation: |
+    El encuadramiento es el proceso de transformar una actividad que ya es significativa dentro de un marco primario en algo más. Es una forma de acotar una parte de la realidad y reencuadrarla bajo una nueva luz. Por ejemplo, una pelea puede encuadrarse como una pelea simulada, una actuación teatral o un sueño. Cada encuadramiento cambia el significado de la actividad sin cambiar su forma física. El re-encuadramiento es el proceso de aplicar una nueva clave a una actividad ya encuadrada. Por ejemplo, una pelea simulada podría re-encuadrarse como una sesión de práctica para una pelea real. Este concepto es crucial para entender cómo los dispositivos median nuestra experiencia. Los dispositivos, ya sean materiales o conceptuales, a menudo se utilizan para encuadrar y re-encuadrar nuestras actividades, estratificando nuevos significados en nuestra realidad. Un teléfono inteligente, por ejemplo, puede encuadrar una conversación como un chat privado, una transmisión pública o una actuación grabada, cada una con su propio conjunto de reglas y expectativas.
 - name: Rupturas de marco
-  explanation: 'Las rupturas de marco ocurren cuando el marco de una situación se interrumpe,
-    lo que lleva a confusión, vergüenza o un sentido de irrealidad. Estas rupturas
-    revelan la fragilidad de nuestras realidades construidas y el trabajo constante
-    requerido para mantenerlas. Un ejemplo clásico es cuando un actor pierde el personaje
-    en el escenario, rompiendo el marco teatral y exponiendo la realidad subyacente
-    de la actuación. Las rupturas de marco pueden ser accidentales o intencionales,
-    y a menudo nos obligan a cuestionar nuestras suposiciones sobre "lo que está sucediendo."
-    En el contexto del marco DEVICES, las rupturas de marco destacan la naturaleza contingente
-    de las realidades construidas por nuestros dispositivos. Cuando un dispositivo falla
-    o se usa de manera inesperada, puede causar una ruptura de marco, revelando el trabajo
-    normalmente invisible que el dispositivo hace para mediar nuestra experiencia. Estos
-    momentos de ruptura son oportunidades para ver el dispositivo y la realidad que construye
-    bajo una nueva luz.
-
-    '
+  explanation: |
+    Las rupturas de marco ocurren cuando el marco de una situación se interrumpe, lo que lleva a confusión, vergüenza o un sentido de irrealidad. Estas rupturas revelan la fragilidad de nuestras realidades construidas y el trabajo constante requerido para mantenerlas. Un ejemplo clásico es cuando un actor pierde el personaje en el escenario, rompiendo el marco teatral y exponiendo la realidad subyacente de la actuación. Las rupturas de marco pueden ser accidentales o intencionales, y a menudo nos obligan a cuestionar nuestras suposiciones sobre "lo que está sucediendo." En el contexto del marco DEVICES, las rupturas de marco destacan la naturaleza contingente de las realidades construidas por nuestros dispositivos. Cuando un dispositivo falla o se usa de manera inesperada, puede causar una ruptura de marco, revelando el trabajo normalmente invisible que el dispositivo hace para mediar nuestra experiencia. Estos momentos de ruptura son oportunidades para ver el dispositivo y la realidad que construye bajo una nueva luz.
 assignment:
-  instructions: 'Lee la introducción y el primer capítulo de *Frame Analysis: An Essay
-    on the Organization of Experience* de Erving Goffman. Mientras lees, considera
-    las siguientes preguntas: ¿Cómo define Goffman un "marco"? ¿Cuál es la diferencia
-    entre un marco primario y uno transformado? ¿Cómo nos ayudan los marcos a entender
-    el mundo, y qué sucede cuando se rompen?
-
-    '
+  instructions: |
+    Lee la introducción y el primer capítulo de *Frame Analysis: An Essay on the Organization of Experience* de Erving Goffman. Mientras lees, considera las siguientes preguntas: ¿Cómo define Goffman un "marco"? ¿Cuál es la diferencia entre un marco primario y uno transformado? ¿Cómo nos ayudan los marcos a entender el mundo, y qué sucede cuando se rompen?
   url: "https://archive.org/details/frameanalysisess00goff_1"
   reading_title: 'Frame Analysis: An Essay on the Organization of Experience'
 knowledge_check:

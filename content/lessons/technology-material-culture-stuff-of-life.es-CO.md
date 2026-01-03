@@ -12,7 +12,8 @@ objectives:
 - Definir y aplicar el concepto de "modernidad líquida" a la vida contemporánea.
 key_concepts:
 - name: Cultura Material como Anclaje del Ser
-  explanation: 'Los objetos con los que vivimos no son meramente herramientas pasivas; son
+  explanation: |
+    Los objetos con los que vivimos no son meramente herramientas pasivas; son
     participantes activos en la construcción de nuestra identidad. L.M. Sacasas, haciendo
     referencia a Hannah Arendt, sugiere que las "cosas del mundo" proporcionan una
     estabilidad crucial para el ser humano siempre cambiante. Un libro físico, por
@@ -31,10 +32,9 @@ key_concepts:
     vio en el "mundo hecho por el hombre" se ve amenazada cuando ese mundo se convierte
     menos en una colección de objetos distintos y más en una serie de imágenes fugaces
     en una pantalla.
-
-    '
 - name: Textura de la Experiencia
-  explanation: 'Sacasas introduce la idea de la "textura de nuestra experiencia" para
+  explanation: |
+    Sacasas introduce la idea de la "textura de nuestra experiencia" para
     describir la cualidad rica y multisensorial de nuestras interacciones con el mundo
     material. Antes del smartphone, por ejemplo, navegar una ciudad nueva implicaba
     un mapa, escuchar música requería un dispositivo dedicado, y tomar una foto significaba
@@ -49,10 +49,9 @@ key_concepts:
     de interfaces consolidadas y digitales tiene consecuencias profundas para cómo percibimos
     y nos comprometemos con nuestro ambiente. Cambia a qué prestamos atención, qué valoramos
     y cómo nos relacionamos con el mundo que nos rodea.
-
-    '
 - name: Modernidad Líquida
-  explanation: 'Para explicar el contexto cultural más amplio de estos cambios, Sacasas
+  explanation: |
+    Para explicar el contexto cultural más amplio de estos cambios, Sacasas
     recurre al concepto de "modernidad líquida" del sociólogo Zygmunt Bauman. Bauman
     argumentó que la vida contemporánea se caracteriza por un estado de flujo constante,
     en el que las estructuras sólidas y estables—desde instituciones hasta identidades
@@ -68,10 +67,8 @@ key_concepts:
     de nuestros objetos refleja y refuerza una lógica cultural más amplia de liquidez,
     moldeando nuestras expectativas y nuestro mismo sentido de lo que es real y lo que
     es duradero.
-
-    '
 assignment:
-  instructions: >
+  instructions: |
     Lee el ensayo de L.M. Sacasas "The Stuff of Life: Materiality and the Self".
     Presta especial atención a su uso de anécdotas personales y su compromiso
     con pensadores como Hannah Arendt y Zygmunt Bauman. Considera cómo los conceptos

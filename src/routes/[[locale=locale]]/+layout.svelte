@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { localizedPath, LOCALE_NAMES, SUPPORTED_LOCALES, type Locale } from '$lib/i18n';
+	import { SITE_URL } from '$lib/config';
 
 	export let data;
 
@@ -12,19 +13,26 @@
 		? currentPath
 		: currentPath.replace(`/${locale}`, '') || '/';
 
-	// Get alternate locale URLs
+	// Build absolute URL from path
+	function absoluteUrl(path: string): string {
+		const cleanPath = path.startsWith('/') ? path : `/${path}`;
+		return `${SITE_URL}${cleanPath}`;
+	}
+
+	// Get alternate locale URLs with absolute URLs for SEO
 	$: alternateUrls = SUPPORTED_LOCALES.map(l => ({
 		locale: l,
 		url: localizedPath(basePath, l),
+		absoluteUrl: absoluteUrl(localizedPath(basePath, l)),
 		name: LOCALE_NAMES[l],
 		isCurrent: l === locale
 	}));
 </script>
 
 <svelte:head>
-	<!-- Add hreflang for SEO -->
+	<!-- Add hreflang for SEO with absolute URLs -->
 	{#each alternateUrls as alt}
-		<link rel="alternate" hreflang={alt.locale} href={alt.url} />
+		<link rel="alternate" hreflang={alt.locale} href={alt.absoluteUrl} />
 	{/each}
 </svelte:head>
 
