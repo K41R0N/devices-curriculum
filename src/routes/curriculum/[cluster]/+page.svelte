@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { getCluster, clusters } from '$lib/data/curriculum';
-	
-	$: cluster = getCluster($page.params.cluster);
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+
+	$: clusters = data.clusters;
+	$: cluster = clusters.find(c => c.slug === $page.params.cluster);
 	$: clusterIndex = clusters.findIndex(c => c.slug === $page.params.cluster);
 	$: prevCluster = clusterIndex > 0 ? clusters[clusterIndex - 1] : null;
 	$: nextCluster = clusterIndex < clusters.length - 1 ? clusters[clusterIndex + 1] : null;
@@ -21,11 +24,11 @@
 			<p>{cluster.description}</p>
 		</div>
 	</div>
-	
+
 	<section class="content-section">
 		<div class="container">
 			<h2 style="margin-bottom: 1.5rem;">Lessons</h2>
-			
+
 			{#each cluster.lessons as lesson, i}
 				<a href="/curriculum/{cluster.slug}/{lesson.slug}" class="card" style="display: flex; gap: 1rem; text-decoration: none; align-items: flex-start;">
 					<div class="lesson-number">{i + 1}</div>
@@ -38,7 +41,7 @@
 					</div>
 				</a>
 			{/each}
-			
+
 			<div class="nav-links">
 				{#if prevCluster}
 					<a href="/curriculum/{prevCluster.slug}">

@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { clusters } from '$lib/data/curriculum';
-	
-	const foundationClusters = clusters.slice(0, 3);
-	const specializationClusters = clusters.slice(3);
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+
+	$: foundationClusters = data.clusters.slice(0, 3);
+	$: specializationClusters = data.clusters.slice(3);
 </script>
 
 <svelte:head>
@@ -25,7 +27,7 @@
 			<h2>Foundations</h2>
 			<p>These clusters lay the conceptual groundwork for the entire framework—mediation, embodiment, and ritual.</p>
 		</div>
-		
+
 		{#each foundationClusters as cluster}
 			<a href="/curriculum/{cluster.slug}" class="card" style="display: block; text-decoration: none;">
 				<div class="cluster-label">Cluster {cluster.id}</div>
@@ -43,7 +45,7 @@
 			<h2>Specializations</h2>
 			<p>These clusters apply the foundational concepts to specific domains—technology, media, ideology, and social evolution.</p>
 		</div>
-		
+
 		{#each specializationClusters as cluster}
 			<a href="/curriculum/{cluster.slug}" class="card" style="display: block; text-decoration: none;">
 				<div class="cluster-label">Cluster {cluster.id}</div>
