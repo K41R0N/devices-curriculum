@@ -2,8 +2,12 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import { localizedPath, type Locale } from '$lib/i18n';
 
 	export let data: PageData;
+
+	// Locale from layout data
+	$: locale = (data.locale || 'en') as Locale;
 
 	$: clusters = data.clusters;
 	$: cluster = clusters.find(c => c.slug === $page.params.cluster);
@@ -21,6 +25,30 @@
 	$: readingTime = lesson?.content
 		? Math.max(1, Math.ceil(lesson.content.split(/\s+/).length / 200))
 		: 5;
+
+	// Translations
+	$: t = {
+		minRead: locale === 'es-CO' ? 'min de lectura' : 'min read',
+		learningObjectives: locale === 'es-CO' ? 'Objetivos de Aprendizaje' : 'Learning Objectives',
+		keyConcepts: locale === 'es-CO' ? 'Conceptos Clave' : 'Key Concepts',
+		assignment: locale === 'es-CO' ? 'Tarea' : 'Assignment',
+		read: locale === 'es-CO' ? 'Leer:' : 'Read:',
+		primaryReading: locale === 'es-CO' ? 'Lectura Principal' : 'Primary Reading',
+		knowledgeCheck: locale === 'es-CO' ? 'Verificación de Conocimientos' : 'Knowledge Check',
+		reflectOnTopics: locale === 'es-CO' ? 'Reflexiona sobre los temas clave de esta lección.' : 'Reflect on the key topics in this lesson.',
+		hint: locale === 'es-CO' ? 'Pista:' : 'Hint:',
+		additionalResources: locale === 'es-CO' ? 'Recursos Adicionales' : 'Additional Resources',
+		supplementaryMaterials: locale === 'es-CO' ? 'Materiales suplementarios para una exploración más profunda.' : 'Supplementary materials for deeper exploration.',
+		comingSoon: locale === 'es-CO' ? 'Contenido Próximamente' : 'Lesson Content Coming Soon',
+		comingSoonDesc: locale === 'es-CO' ? 'El contenido completo de la lección estará disponible pronto. Vuelve más tarde o explora otras lecciones.' : 'Full lesson content will be available soon. Check back later or explore other lessons.',
+		previousLesson: locale === 'es-CO' ? 'Lección Anterior' : 'Previous Lesson',
+		backToCluster: locale === 'es-CO' ? 'Volver al Cluster' : 'Back to Cluster',
+		nextLesson: locale === 'es-CO' ? 'Siguiente Lección' : 'Next Lesson',
+		allClusters: locale === 'es-CO' ? 'Todos los Clusters' : 'All Clusters',
+		viewCurriculum: locale === 'es-CO' ? 'Ver Currículo' : 'View Curriculum',
+		lessonNotFound: locale === 'es-CO' ? 'Lección no encontrada' : 'Lesson not found',
+		returnToCurriculum: locale === 'es-CO' ? 'Volver al currículo' : 'Return to curriculum'
+	};
 
 	onMount(() => {
 		const updateProgress = () => {
@@ -44,13 +72,13 @@
 	<!-- Sticky Header with Progress -->
 	<header class="lesson-header">
 		<div class="lesson-header-content">
-			<a href="/curriculum/{cluster.slug}" class="header-back-btn" aria-label="Back to cluster">
+			<a href={localizedPath(`/curriculum/${cluster.slug}`, locale)} class="header-back-btn" aria-label={t.backToCluster}>
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M19 12H5M12 19l-7-7 7-7"/>
 				</svg>
 			</a>
 			<h2 class="header-title">DEVICES</h2>
-			<a href="/curriculum" class="header-menu-btn" aria-label="Curriculum menu">
+			<a href={localizedPath('/curriculum', locale)} class="header-menu-btn" aria-label="Curriculum">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M3 12h18M3 6h18M3 18h18"/>
 				</svg>
@@ -72,7 +100,7 @@
 						<circle cx="12" cy="12" r="10"/>
 						<path d="M12 6v6l4 2"/>
 					</svg>
-					{readingTime} min read
+					{readingTime} {t.minRead}
 				</span>
 			</div>
 
@@ -112,7 +140,7 @@
 							</svg>
 						</div>
 						<div class="callout-content">
-							<h3>Learning Objectives</h3>
+							<h3>{t.learningObjectives}</h3>
 							<ul>
 								{#each lesson.objectives as objective}
 									<li>{objective}</li>
@@ -124,7 +152,7 @@
 
 				{#if lesson.key_concepts && lesson.key_concepts.length > 0}
 					<section class="lesson-section">
-						<h2>Key Concepts</h2>
+						<h2>{t.keyConcepts}</h2>
 						{#each lesson.key_concepts as concept}
 							<div class="concept-card">
 								<div class="concept-accent"></div>
@@ -151,7 +179,7 @@
 								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 									<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
 								</svg>
-								<h3>Assignment</h3>
+								<h3>{t.assignment}</h3>
 							</div>
 							<div class="assignment-body">
 								{@html lesson.assignment.instructions}
@@ -163,7 +191,7 @@
 									rel="noopener noreferrer"
 									class="assignment-link"
 								>
-									Read: {lesson.assignment.reading_title || 'Primary Reading'}
+									{t.read} {lesson.assignment.reading_title || t.primaryReading}
 									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 										<path d="M5 12h14M12 5l7 7-7 7"/>
 									</svg>
@@ -180,10 +208,10 @@
 								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 									<path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
 								</svg>
-								<h3>Knowledge Check</h3>
+								<h3>{t.knowledgeCheck}</h3>
 							</div>
 							<p class="knowledge-check-intro">
-								Reflect on the key topics in this lesson.
+								{t.reflectOnTopics}
 							</p>
 							<div class="knowledge-check-questions">
 								{#each lesson.knowledge_check as question, i}
@@ -193,7 +221,7 @@
 											<p class="question-text">{question.question}</p>
 											{#if question.hint}
 												<p class="question-hint">
-													<strong>Hint:</strong> {question.hint}
+													<strong>{t.hint}</strong> {question.hint}
 												</p>
 											{/if}
 										</div>
@@ -206,8 +234,8 @@
 
 				{#if lesson.additional_resources && lesson.additional_resources.length > 0}
 					<section class="lesson-section">
-						<h2>Additional Resources</h2>
-						<p class="section-subtitle">Supplementary materials for deeper exploration.</p>
+						<h2>{t.additionalResources}</h2>
+						<p class="section-subtitle">{t.supplementaryMaterials}</p>
 						<div class="resources-grid">
 							{#each lesson.additional_resources as resource}
 								<div class="resource-card">
@@ -245,8 +273,8 @@
 						</svg>
 					</div>
 					<div class="callout-content">
-						<h3>Lesson Content Coming Soon</h3>
-						<p>Full lesson content will be available soon. Check back later or explore other lessons.</p>
+						<h3>{t.comingSoon}</h3>
+						<p>{t.comingSoonDesc}</p>
 					</div>
 				</div>
 			{/if}
@@ -254,9 +282,9 @@
 
 		<!-- Chapter Navigation Footer -->
 		<nav class="lesson-navigation">
-			<a href={prevLesson ? `/curriculum/${cluster.slug}/${prevLesson.slug}` : `/curriculum/${cluster.slug}`} class="nav-prev">
+			<a href={localizedPath(prevLesson ? `/curriculum/${cluster.slug}/${prevLesson.slug}` : `/curriculum/${cluster.slug}`, locale)} class="nav-prev">
 				<span class="nav-label">
-					{prevLesson ? 'Previous Lesson' : 'Back to Cluster'}
+					{prevLesson ? t.previousLesson : t.backToCluster}
 				</span>
 				<span class="nav-title">
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -265,12 +293,12 @@
 					{prevLesson ? prevLesson.title : cluster.title}
 				</span>
 			</a>
-			<a href={nextLesson ? `/curriculum/${cluster.slug}/${nextLesson.slug}` : '/curriculum'} class="nav-next">
+			<a href={localizedPath(nextLesson ? `/curriculum/${cluster.slug}/${nextLesson.slug}` : '/curriculum', locale)} class="nav-next">
 				<span class="nav-label">
-					{nextLesson ? 'Next Lesson' : 'All Clusters'}
+					{nextLesson ? t.nextLesson : t.allClusters}
 				</span>
 				<span class="nav-title">
-					{nextLesson ? nextLesson.title : 'View Curriculum'}
+					{nextLesson ? nextLesson.title : t.viewCurriculum}
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M5 12h14M12 5l7 7-7 7"/>
 					</svg>
@@ -281,9 +309,9 @@
 {:else}
 	<div class="content-section">
 		<div class="container">
-			<h1>Lesson not found</h1>
+			<h1>{t.lessonNotFound}</h1>
 			<p>
-				<a href="/curriculum">Return to curriculum</a>
+				<a href={localizedPath('/curriculum', locale)}>{t.returnToCurriculum}</a>
 			</p>
 		</div>
 	</div>

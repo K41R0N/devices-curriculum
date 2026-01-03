@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
+	import { localizedPath, type Locale } from '$lib/i18n';
 
 	export let data: PageData;
+
+	// Locale from layout data
+	$: locale = (data.locale || 'en') as Locale;
 
 	$: clusters = data.clusters;
 	$: cluster = clusters.find(c => c.slug === $page.params.cluster);
@@ -14,6 +18,17 @@
 	function formatNumber(n: number): string {
 		return n.toString().padStart(2, '0');
 	}
+
+	// Translations
+	$: t = {
+		lessons: locale === 'es-CO' ? 'Lecciones' : 'Lessons',
+		previousCluster: locale === 'es-CO' ? 'Cluster Anterior' : 'Previous Cluster',
+		nextCluster: locale === 'es-CO' ? 'Siguiente Cluster' : 'Next Cluster',
+		allClusters: locale === 'es-CO' ? 'Todos los Clusters' : 'All Clusters',
+		curriculum: locale === 'es-CO' ? 'Currículo' : 'Curriculum',
+		clusterNotFound: locale === 'es-CO' ? 'Cluster no encontrado' : 'Cluster not found',
+		returnToCurriculum: locale === 'es-CO' ? 'Volver al currículo' : 'Return to curriculum'
+	};
 </script>
 
 <svelte:head>
@@ -24,13 +39,13 @@
 	<!-- Sticky Header -->
 	<header class="cluster-header">
 		<div class="cluster-header-content">
-			<a href="/curriculum" class="header-back-btn" aria-label="Back to curriculum">
+			<a href={localizedPath('/curriculum', locale)} class="header-back-btn" aria-label="Back to curriculum">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M19 12H5M12 19l-7-7 7-7"/>
 				</svg>
 			</a>
 			<h2 class="header-title">Cluster {cluster.id}</h2>
-			<a href="/" class="header-home-btn" aria-label="Home">
+			<a href={localizedPath('/', locale)} class="header-home-btn" aria-label="Home">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
 					<polyline points="9 22 9 12 15 12 15 22"/>
@@ -46,14 +61,14 @@
 			<span class="cluster-badge">Cluster {formatNumber(cluster.id)}</span>
 			<h1 class="cluster-title">{cluster.title}</h1>
 			<p class="cluster-description">{cluster.description}</p>
-			<p class="cluster-count">{cluster.lessons.length} Lessons</p>
+			<p class="cluster-count">{cluster.lessons.length} {t.lessons}</p>
 		</div>
 
 		<!-- Lesson List -->
 		<div class="lesson-list">
 			{#each cluster.lessons as lesson, i}
 				<!-- Lesson Card -->
-				<a href="/curriculum/{cluster.slug}/{lesson.slug}" class="lesson-card">
+				<a href={localizedPath(`/curriculum/${cluster.slug}/${lesson.slug}`, locale)} class="lesson-card">
 					<div class="lesson-card-content">
 						<div class="lesson-number-badge">
 							{formatNumber(i + 1)}
@@ -82,20 +97,20 @@
 
 		<!-- Cluster Navigation -->
 		<nav class="cluster-navigation">
-			<a href={prevCluster ? `/curriculum/${prevCluster.slug}` : '/curriculum'} class="nav-prev">
+			<a href={localizedPath(prevCluster ? `/curriculum/${prevCluster.slug}` : '/curriculum', locale)} class="nav-prev">
 				<span class="nav-label">
-					{prevCluster ? 'Previous Cluster' : 'All Clusters'}
+					{prevCluster ? t.previousCluster : t.allClusters}
 				</span>
 				<span class="nav-cluster-title">
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M19 12H5M12 19l-7-7 7-7"/>
 					</svg>
-					{prevCluster ? prevCluster.title : 'Curriculum'}
+					{prevCluster ? prevCluster.title : t.curriculum}
 				</span>
 			</a>
 			{#if nextCluster}
-				<a href="/curriculum/{nextCluster.slug}" class="nav-next">
-					<span class="nav-label">Next Cluster</span>
+				<a href={localizedPath(`/curriculum/${nextCluster.slug}`, locale)} class="nav-next">
+					<span class="nav-label">{t.nextCluster}</span>
 					<span class="nav-cluster-title">
 						{nextCluster.title}
 						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -109,9 +124,9 @@
 {:else}
 	<div class="content-section">
 		<div class="container">
-			<h1>Cluster not found</h1>
+			<h1>{t.clusterNotFound}</h1>
 			<p>
-				<a href="/curriculum">Return to curriculum</a>
+				<a href={localizedPath('/curriculum', locale)}>{t.returnToCurriculum}</a>
 			</p>
 		</div>
 	</div>
