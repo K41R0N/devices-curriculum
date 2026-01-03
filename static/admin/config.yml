@@ -2,6 +2,7 @@ backend:
   name: github
   repo: K41R0N/devices-curriculum
   branch: main
+  base_url: https://sveltia-cms-auth.alejandro-057.workers.dev
 
 media_folder: static/images
 public_folder: /images
