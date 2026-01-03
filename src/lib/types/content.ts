@@ -110,12 +110,14 @@ export interface Page {
 }
 
 export interface HomePage {
-	/** Main headline */
-	hero_title: string;
-	/** Supporting tagline */
-	hero_subtitle: string;
-	/** Introductory content (markdown) */
-	body: string;
+	/** Main curriculum title (displayed in book cover) */
+	title: string;
+	/** One-sentence value proposition */
+	tagline: string;
+	/** Call-to-action button text */
+	cta_text: string;
+	/** Optional approach/philosophy section (markdown) */
+	body?: string;
 }
 
 export interface AboutPage extends Page {

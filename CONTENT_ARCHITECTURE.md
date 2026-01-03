@@ -107,9 +107,10 @@ Static pages with flexible content (About, Home, etc.).
 #### Home Page (`content/pages/home.md`)
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `hero_title` | string | yes | Main headline |
-| `hero_subtitle` | text | yes | Supporting tagline |
-| `body` | markdown | yes | Introductory content |
+| `title` | string | yes | Main curriculum title (book cover) |
+| `tagline` | text | yes | One-sentence value proposition |
+| `cta_text` | string | yes | Call-to-action button text |
+| `body` | markdown | no | Optional approach/philosophy section |
 
 #### About Page (`content/pages/about.md`)
 | Field | Type | Required | Description |
