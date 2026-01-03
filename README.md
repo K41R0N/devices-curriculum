@@ -1,101 +1,56 @@
 # DEVICES Curriculum
 
-A self-directed research curriculum for understanding how devices shape reality, built with SvelteKit and Sveltia CMS.
+A self-directed research curriculum exploring how devices—material, conceptual, and ritual—shape human reality. Built with SvelteKit, Sveltia CMS, and a front-end agnostic content architecture.
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/devices-curriculum/deploys)
 
 ## Overview
 
-This curriculum contains 25 lessons across 9 thematic clusters, exploring the theoretical foundations of the DEVICES framework—a unified theory of how material and conceptual devices mediate, construct, and propagate reality.
+This project contains **25 lessons** across **9 thematic clusters**, exploring the theoretical foundations of the DEVICES framework. The curriculum draws from sociology, philosophy, anthropology, media studies, and science & technology studies.
+
+**Key Features:**
+- Dynamic content loading from Markdown files
+- Git-based CMS for content management
+- Machine-readable APIs for programmatic access
+- Front-end agnostic architecture (redesign without changing content)
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [CONTENT_ARCHITECTURE.md](./CONTENT_ARCHITECTURE.md) | Content schema, types, and component contracts |
+| [METHODOLOGY.md](./METHODOLOGY.md) | Guide to building your own curriculum with AI |
+| [AGENTS.md](./AGENTS.md) | Instructions for AI agents working on this project |
 
 ## Tech Stack
 
-- **Framework:** SvelteKit
-- **Styling:** Tailwind CSS + Custom CSS
-- **CMS:** Sveltia CMS (Git-based, Netlify CMS compatible)
-- **Fonts:** Kyrios Standard (headings), Merriweather (body)
-- **Hosting:** Netlify
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| Framework | [SvelteKit](https://kit.svelte.dev) | Web framework with SSR |
+| CMS | [Sveltia CMS](https://github.com/sveltia/sveltia-cms) | Git-based headless CMS |
+| Auth | [Cloudflare Workers](https://workers.cloudflare.com) | OAuth for CMS |
+| Hosting | [Netlify](https://netlify.com) | Continuous deployment |
+| Types | TypeScript | Type-safe content handling |
 
-## Project Structure
+## Quick Start
 
-```
-devices-curriculum-site/
-├── content/
-│   ├── lessons/          # 25 lesson markdown files
-│   ├── pages/            # Static pages (home, about)
-│   └── settings/         # Site configuration
-├── src/
-│   ├── lib/data/         # Curriculum data structure
-│   └── routes/           # SvelteKit pages
-├── static/
-│   ├── admin/            # Sveltia CMS configuration
-│   ├── fonts/            # Kyrios Standard font files
-│   └── images/lessons/   # Lesson featured images
-├── AGENTS.md             # Instructions for AI agents
-├── netlify.toml          # Netlify build configuration
-└── package.json
-```
+### Prerequisites
 
-## Deployment to Netlify
+- Node.js 20+
+- pnpm (recommended) or npm
+- Git
 
-### 1. Push to GitHub
+### Local Development
 
 ```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/devices-curriculum.git
-git push -u origin main
-```
+# Clone the repository
+git clone https://github.com/K41R0N/devices-curriculum.git
+cd devices-curriculum
 
-### 2. Connect to Netlify
-
-1. Go to [Netlify](https://app.netlify.com)
-2. Click "Add new site" → "Import an existing project"
-3. Connect your GitHub repository
-4. Build settings are pre-configured in `netlify.toml`:
-   - Build command: `pnpm build`
-   - Publish directory: `build`
-
-### 3. Set Up Sveltia CMS Authentication
-
-Sveltia CMS requires GitHub OAuth for authentication. You have two options:
-
-#### Option A: Use Sveltia CMS Authenticator (Recommended)
-
-1. Deploy the [Sveltia CMS Auth](https://github.com/sveltia/sveltia-cms-auth) to Cloudflare Workers or your preferred platform
-2. Update `static/admin/config.yml`:
-   ```yaml
-   backend:
-     name: github
-     repo: YOUR_USERNAME/devices-curriculum
-     branch: main
-     base_url: https://your-auth-worker.workers.dev
-   ```
-
-#### Option B: Use Netlify Identity + Git Gateway
-
-1. Enable Netlify Identity in your site settings
-2. Enable Git Gateway in Identity settings
-3. Update `static/admin/config.yml`:
-   ```yaml
-   backend:
-     name: git-gateway
-     branch: main
-   ```
-4. Invite yourself as a user in Netlify Identity
-
-### 4. Update CMS Configuration
-
-Edit `static/admin/config.yml` and replace:
-- `YOUR_GITHUB_USERNAME/devices-curriculum` with your actual repo path
-- `https://sveltia-cms-auth.YOUR_DOMAIN.com` with your auth endpoint (if using Option A)
-
-## Local Development
-
-```bash
 # Install dependencies
 pnpm install
 
-# Start dev server
+# Start development server
 pnpm dev
 
 # Build for production
@@ -105,19 +60,79 @@ pnpm build
 pnpm preview
 ```
 
-## Content Management
+The site will be available at `http://localhost:5173`.
 
-Once deployed, access the CMS at `https://your-site.netlify.app/admin`
+### Deploying Your Own
 
-The CMS allows you to:
-- Edit lesson content (title, description, objectives, key concepts, etc.)
-- Upload and manage featured images
-- Modify site settings and pages
+1. **Fork this repository**
+
+2. **Connect to Netlify**
+   - Import the repository in Netlify
+   - Build settings are pre-configured in `netlify.toml`
+
+3. **Set up CMS Authentication**
+   - Deploy [sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) to Cloudflare Workers
+   - Create a GitHub OAuth App
+   - Update `static/admin/config.yml` with your auth URL and repo
+
+4. **Configure your site**
+   - Update `content/settings/site.json` with your details
+   - Edit `static/admin/config.yml` to point to your repo
+
+See [METHODOLOGY.md](./METHODOLOGY.md) for detailed setup instructions.
+
+## Project Structure
+
+```
+devices-curriculum/
+├── content/                    # All content (CMS-managed)
+│   ├── clusters/              # Thematic groupings (9 files)
+│   ├── lessons/               # Individual lessons (25 files)
+│   ├── pages/                 # Static pages (home, about)
+│   └── settings/              # Site configuration
+├── src/
+│   ├── lib/
+│   │   ├── data/              # Content loading logic
+│   │   └── types/             # TypeScript definitions
+│   └── routes/                # SvelteKit pages & API endpoints
+├── static/
+│   ├── admin/                 # CMS configuration
+│   ├── fonts/                 # Custom fonts
+│   └── images/                # Static assets
+├── CONTENT_ARCHITECTURE.md    # Content schema documentation
+├── METHODOLOGY.md             # Curriculum building guide
+└── AGENTS.md                  # AI agent instructions
+```
+
+## Content Architecture
+
+Content is **front-end agnostic**—the same content can power any presentation layer.
+
+### Content Types
+
+| Type | Location | Description |
+|------|----------|-------------|
+| Cluster | `content/clusters/` | Thematic grouping of lessons |
+| Lesson | `content/lessons/` | Individual learning unit |
+| Page | `content/pages/` | Static pages |
+| Settings | `content/settings/` | Site configuration |
+
+### Machine-Readable Endpoints
+
+| Endpoint | Format | Description |
+|----------|--------|-------------|
+| `/api/curriculum.json` | JSON | Full curriculum API |
+| `/api/manifest.json` | JSON-LD | Schema.org structured data |
+| `/feed.xml` | RSS 2.0 | Content syndication |
+| `/sitemap.xml` | XML | Search engine sitemap |
+| `/llms.txt` | Text | AI agent guidance |
+
+See [CONTENT_ARCHITECTURE.md](./CONTENT_ARCHITECTURE.md) for complete schema documentation.
 
 ## Curriculum Structure
 
-| Cluster | Theme | Lessons |
-|---------|-------|---------|
+| # | Cluster | Lessons |
+|---|---------|---------|
 | 1 | Mediation Architecture & Reality Framing | 3 |
 | 2 | Embodiment, Repetition & Internalization | 4 |
 | 3 | Ritual Structures & Sacred Dimensions | 2 |
@@ -128,26 +143,59 @@ The CMS allows you to:
 | 8 | Ideology, Power & Device Non-Neutrality | 3 |
 | 9 | Comparative Genesis & Competitive Dynamics | 3 |
 
-## Image Generation
+## For Contributors
 
-The curriculum includes custom linocut-style illustrations. See `AGENTS.md` for instructions on generating additional images that match the visual style.
+### Adding Content
 
-### Current Images
+**Via CMS (Recommended):**
+- Access `/admin` on the deployed site
+- Use the visual editor to create/edit content
+- Changes auto-commit to GitHub
 
-- `01-social-construction-reality.png` - Archway of symbols (Social Construction lesson)
-- `02-framing.png` - Frame with calm ship inside, chaos outside (Framing lesson)
+**Via Git:**
+- Create Markdown files in `content/` following the schema
+- See [CONTENT_ARCHITECTURE.md](./CONTENT_ARCHITECTURE.md) for field definitions
 
-### Planned Images (18 remaining)
+### Modifying the UI
 
-See the image outline in the project documentation for the full list of planned illustrations.
+The presentation layer is separate from content. To redesign:
+
+1. Read the component contracts in [CONTENT_ARCHITECTURE.md](./CONTENT_ARCHITECTURE.md)
+2. Create new components that consume the documented data shapes
+3. Content files remain unchanged
+
+See the "Redesigning a Page Layout" section in [METHODOLOGY.md](./METHODOLOGY.md) for AI prompts.
+
+### For AI Agents
+
+See [AGENTS.md](./AGENTS.md) for:
+- Project architecture overview
+- Common tasks and how to perform them
+- Content schema reference
+- Validation rules
+
+## Building Your Own Curriculum
+
+This project is designed to be forked and adapted. See [METHODOLOGY.md](./METHODOLOGY.md) for a complete guide covering:
+
+1. **Domain Definition** — Defining your core research question
+2. **AI-Assisted Research** — Finding seminal texts with AI
+3. **Curriculum Structuring** — Organizing content in this system
+4. **Content Generation** — Using AI to create lesson content
+5. **Visual Identity** — Creating consistent imagery
+6. **Deployment** — Going live with your curriculum
 
 ## License
 
-Content and curriculum structure © K41R0N. Code is MIT licensed.
+- **Content & Curriculum**: © K41R0N — All rights reserved
+- **Code**: MIT License — Free to use, modify, and distribute
 
-## Related
+## Links
 
-- [K41R0N Substack](https://k41r0n.substack.com) - The publication this curriculum supports
-- [Kairon.xyz](https://kairon.xyz) - Author's personal site
-# devices-curriculum
-# devices-curriculum
+- **Live Site**: [devices-curriculum.netlify.app](https://devices-curriculum.netlify.app)
+- **Substack**: [k41r0n.substack.com](https://k41r0n.substack.com)
+- **Sveltia CMS**: [github.com/sveltia/sveltia-cms](https://github.com/sveltia/sveltia-cms)
+
+---
+
+*Built for depth, not breadth.*
